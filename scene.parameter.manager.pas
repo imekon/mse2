@@ -71,6 +71,7 @@ var
   parameter: TSceneParameter;
 
 begin
+  result := nil;
   parameter := FindParameter(name);
   if assigned(parameter) then
     result := (parameter as TSceneParameter<TType>).Value;

@@ -2,6 +2,9 @@ unit scene.parameter;
 
 interface
 
+uses
+  System.SysUtils;
+
 type
   TSceneParameterGroup = (Basic, Camera, Transform, Colour, Texture);
 
@@ -12,11 +15,30 @@ type
     procedure Parse(const text: string);
   end;
 
+  TIntegerValue = class(TSceneValue)
+  private
+    _value: integer;
+  public
+    constructor Create(const value: integer);
+    function ToString: string; override;
+    property Value: integer read _value write _value;
+  end;
+
+  TSingleValue = class(TSceneValue)
+  private
+    _value: single;
+  public
+    constructor Create(const value: single);
+    function ToString: string; override;
+    property Value: single read _value write _value;
+  end;
+
   TStringValue = class(TSceneValue)
   private
     _value: string;
   public
     constructor Create(const value: string);
+    function ToString: string; override;
     property Value: string read _value write _value;
   end;
 
@@ -55,7 +77,7 @@ end;
 
 function TSceneParameter<TType>.ToString: string;
 begin
-  result := '';
+  result := _value.ToString;
 
 end;
 
@@ -89,6 +111,35 @@ end;
 constructor TStringValue.Create(const value: string);
 begin
   _value := value;
+end;
+
+function TStringValue.ToString: string;
+begin
+  result := _value;
+end;
+
+{ TSingleValue }
+
+constructor TSingleValue.Create(const value: single);
+begin
+  _value := value;
+end;
+
+function TSingleValue.ToString: string;
+begin
+  result := FloatToStr(_value);
+end;
+
+{ TIntegerValue }
+
+constructor TIntegerValue.Create(const value: integer);
+begin
+  _value := value;
+end;
+
+function TIntegerValue.ToString: string;
+begin
+  result := IntToStr(_value);
 end;
 
 end.
