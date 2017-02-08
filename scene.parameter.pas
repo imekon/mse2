@@ -78,7 +78,6 @@ end;
 function TSceneParameter<TType>.ToString: string;
 begin
   result := _value.ToString;
-
 end;
 
 { TSceneParameter }
