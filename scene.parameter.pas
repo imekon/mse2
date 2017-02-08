@@ -20,6 +20,7 @@ type
     procedure SetValue(const Value: TType);
   public
     constructor Create(const name: string; group: TSceneParameterGroup); override;
+    function ToString: string; override;
     property Value: TType read _value write SetValue;
   end;
 
@@ -35,6 +36,12 @@ end;
 procedure TSceneParameter<TType>.SetValue(const Value: TType);
 begin
   _value := value;
+end;
+
+function TSceneParameter<TType>.ToString: string;
+begin
+  result := '';
+
 end;
 
 { TSceneParameter }

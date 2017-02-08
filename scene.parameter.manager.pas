@@ -9,15 +9,19 @@ uses
 type
   TSceneParameterManager = class
   private
-    _parameters: TDictionary<string, TSceneParameter>;
+    _parameters: TList<TSceneParameter>;
+    function FindParameter(const name: string): TSceneParameter;
+    function GetParameterByIndex(index: integer): TSceneParameter;
+    function GetParameterCount: integer;
   public
     constructor Create;
     destructor Destroy; override;
     procedure AddParameter<TType>(const name: string; value: TType; group: TSceneParameterGroup);
     function GetParameter<TType>(const name: string): TType;
     procedure SetParameter<TType>(const name: string; const value: TType);
-    procedure GetParameterNames(list: TList<string>);
-    function GetParameters: TArray<TPair<string, TSceneParameter>>;
+
+    property ParameterCount: integer read GetParameterCount;
+    property Parameter[index: integer]: TSceneParameter read GetParameterByIndex;
   end;
 
 implementation
@@ -31,12 +35,12 @@ var
 
 begin
   parameter := TSceneParameter<TType>.Create(name, group);
-  _parameters.Add(name, parameter);
+  _parameters.Add(parameter);
 end;
 
 constructor TSceneParameterManager.Create;
 begin
-  _parameters := TDictionary<string, TSceneParameter>.Create;
+  _parameters := TList<TSceneParameter>.Create;
 end;
 
 destructor TSceneParameterManager.Destroy;
@@ -45,27 +49,42 @@ begin
   inherited;
 end;
 
+function TSceneParameterManager.FindParameter(
+  const name: string): TSceneParameter;
+var
+  parameter: TSceneParameter;
+
+begin
+  result := nil;
+  for parameter in _parameters do
+  begin
+    if parameter.Name = name then
+    begin
+      result := parameter;
+      break;
+    end;
+  end;
+end;
+
 function TSceneParameterManager.GetParameter<TType>(const name: string): TType;
 var
   parameter: TSceneParameter;
 
 begin
-  parameter := _parameters[name];
-  result := (parameter as TSceneParameter<TType>).Value;
+  parameter := FindParameter(name);
+  if assigned(parameter) then
+    result := (parameter as TSceneParameter<TType>).Value;
 end;
 
-function TSceneParameterManager.GetParameters: TArray<TPair<string, TSceneParameter>>;
+function TSceneParameterManager.GetParameterByIndex(
+  index: integer): TSceneParameter;
 begin
-  result := _parameters.ToArray;
+  result := _parameters[index];
 end;
 
-procedure TSceneParameterManager.GetParameterNames(list: TList<string>);
-var
-  name: string;
-
+function TSceneParameterManager.GetParameterCount: integer;
 begin
-  for name in _parameters.Keys do
-    list.Add(name);
+  result := _parameters.Count;
 end;
 
 procedure TSceneParameterManager.SetParameter<TType>(const name: string;
@@ -74,8 +93,9 @@ var
   parameter: TSceneParameter;
 
 begin
-  parameter := _parameters[name];
-  (parameter as TSceneParameter<TType>).Value := value;
+  parameter := FindParameter(name);
+  if assigned(parameter) then
+    (parameter as TSceneParameter<TType>).Value := value;
 end;
 
 end.
