@@ -16,9 +16,9 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-    procedure AddParameter<TType>(const name: string; value: TType; group: TSceneParameterGroup);
-    function GetParameter<TType>(const name: string): TType;
-    procedure SetParameter<TType>(const name: string; const value: TType);
+    procedure AddParameter<TType: TSceneValue>(const name: string; value: TType; group: TSceneParameterGroup);
+    function GetParameter<TType: TSceneValue>(const name: string): TType;
+    procedure SetParameter<TType: TSceneValue>(const name: string; const value: TType);
 
     property ParameterCount: integer read GetParameterCount;
     property Parameter[index: integer]: TSceneParameter read GetParameterByIndex;

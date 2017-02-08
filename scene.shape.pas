@@ -14,8 +14,8 @@ type
   public
     constructor Create; virtual;
     destructor Destroy; override;
-    function GetParameter<TType>(const name: string): TType;
-    procedure SetParameter<TType>(const name: string; value: TType);
+    function GetParameter<TType: TSceneValue>(const name: string): TType;
+    procedure SetParameter<TType: TSceneValue>(const name: string; value: TType);
   end;
 
 implementation
@@ -30,13 +30,15 @@ begin
     TSceneVector.Create(1.0, 1.0, 1.0), TSceneParameterGroup.Transform);
   _parameterManager.AddParameter<TSceneVector>('rotate', TSceneVector.Create,
     TSceneParameterGroup.Transform);
-  _parameterManager.AddParameter<string>('texture', 'unknown', TSceneParameterGroup.Texture);
+  _parameterManager.AddParameter<TStringValue>('texture',
+    TStringValue.Create('unknown'), TSceneParameterGroup.Texture);
 end;
 
 constructor TShape.Create;
 begin
   _parameterManager := TSceneParameterManager.Create;
-  _parameterManager.AddParameter<string>('name', 'untitled', TSceneParameterGroup.Basic);
+  _parameterManager.AddParameter<TStringValue>('name',
+    TStringValue.Create('untitled'), TSceneParameterGroup.Basic);
 end;
 
 destructor TShape.Destroy;

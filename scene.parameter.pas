@@ -5,6 +5,21 @@ interface
 type
   TSceneParameterGroup = (Basic, Camera, Transform, Colour, Texture);
 
+  TSceneValue = class
+  public
+    constructor Create;
+    function ToString: string; override;
+    procedure Parse(const text: string);
+  end;
+
+  TStringValue = class(TSceneValue)
+  private
+    _value: string;
+  public
+    constructor Create(const value: string);
+    property Value: string read _value write _value;
+  end;
+
   TSceneParameter = class
   protected
     _name: string;
@@ -14,7 +29,7 @@ type
     property Name: string read _name;
   end;
 
-  TSceneParameter<TType> = class(TSceneParameter)
+  TSceneParameter<TType: TSceneValue> = class(TSceneParameter)
   protected
     _value: TType;
     procedure SetValue(const Value: TType);
@@ -50,6 +65,30 @@ constructor TSceneParameter.Create(const name: string; group: TSceneParameterGro
 begin
   _name := name;
   _group := group;
+end;
+
+{ TSceneValue }
+
+constructor TSceneValue.Create;
+begin
+
+end;
+
+procedure TSceneValue.Parse(const text: string);
+begin
+
+end;
+
+function TSceneValue.ToString: string;
+begin
+  result := '';
+end;
+
+{ TStringValue }
+
+constructor TStringValue.Create(const value: string);
+begin
+  _value := value;
 end;
 
 end.

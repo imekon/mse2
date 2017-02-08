@@ -22,7 +22,7 @@ constructor TSceneTexture.Create;
 begin
   _parameters := TSceneParameterManager.Create;
 
-  _parameters.AddParameter<string>('name', 'untitled', TSceneParameterGroup.Basic);
+  _parameters.AddParameter<TStringValue>('name', TStringValue.Create('untitled'), TSceneParameterGroup.Basic);
   _parameters.AddParameter<TSceneColour>('colour', TSceneColour.Create, TSceneParameterGroup.Colour);
 end;
 
