@@ -134,8 +134,8 @@ object MainForm: TMainForm
     TabOrder = 3
   end
   object MainMenu: TMainMenu
-    Left = 232
-    Top = 200
+    Left = 288
+    Top = 88
     object File1: TMenuItem
       Caption = '&File'
       object New1: TMenuItem
@@ -170,6 +170,30 @@ object MainForm: TMainForm
       Caption = '&Object'
       object Create1: TMenuItem
         Caption = '&Create'
+        object Camera1: TMenuItem
+          Action = CameraAction
+        end
+        object N1: TMenuItem
+          Caption = '-'
+        end
+        object Light1: TMenuItem
+          Caption = 'Light'
+          object Spot1: TMenuItem
+            Action = SpotLightAction
+          end
+        end
+        object N2: TMenuItem
+          Caption = '-'
+        end
+        object Plane1: TMenuItem
+          Action = PlaneAction
+        end
+        object Sphere1: TMenuItem
+          Action = SphereAction
+        end
+        object Cube1: TMenuItem
+          Action = CubeAction
+        end
       end
     end
     object Help1: TMenuItem
@@ -234,12 +258,37 @@ object MainForm: TMainForm
       Caption = '&About...'
       OnExecute = OnHelpAbout
     end
+    object CameraAction: TAction
+      Category = 'Object'
+      Caption = 'Camera'
+      OnExecute = OnCreateCamera
+    end
+    object SpotLightAction: TAction
+      Category = 'Object'
+      Caption = 'Spot'
+      OnExecute = OnCreateSpotLight
+    end
+    object PlaneAction: TAction
+      Category = 'Object'
+      Caption = 'Plane'
+      OnExecute = OnCreatePlane
+    end
+    object SphereAction: TAction
+      Category = 'Object'
+      Caption = 'Sphere'
+      OnExecute = OnCreateSphere
+    end
+    object CubeAction: TAction
+      Category = 'Object'
+      Caption = 'Cube'
+      OnExecute = OnCreateCube
+    end
   end
   object ImageList: TImageList
     Left = 376
     Top = 264
     Bitmap = {
-      494C010106000800180010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101060008001C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000B8898900B8898900B8898900B8898900B8898900B8898900B889
