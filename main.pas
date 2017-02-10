@@ -3,7 +3,9 @@ unit main;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes,
+  Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, System.ImageList,
   Vcl.ImgList, Vcl.ToolWin, System.Actions, Vcl.ActnList, Vcl.Menus,
   GLCrossPlatform, GLBaseClasses, GLScene, GLWin32Viewer, Vcl.Grids,
@@ -67,6 +69,28 @@ type
     PlaneAction: TAction;
     SphereAction: TAction;
     CubeAction: TAction;
+    view1: TMenuItem;
+    Camera2: TMenuItem;
+    N3: TMenuItem;
+    Front1: TMenuItem;
+    Back1: TMenuItem;
+    Left1: TMenuItem;
+    Right1: TMenuItem;
+    op1: TMenuItem;
+    Bottom1: TMenuItem;
+    ViewCameraAction: TAction;
+    ViewFrontAction: TAction;
+    ViewBackAction: TAction;
+    ViewLeftAction: TAction;
+    ViewRightAction: TAction;
+    ViewTopAction: TAction;
+    ViewBottomAction: TAction;
+    ToolButton8: TToolButton;
+    ToolButton9: TToolButton;
+    ToolButton10: TToolButton;
+    ToolButton11: TToolButton;
+    ToolButton12: TToolButton;
+    ToolButton13: TToolButton;
     procedure OnFileNew(Sender: TObject);
     procedure OnFileOpen(Sender: TObject);
     procedure OnFileSave(Sender: TObject);
@@ -83,6 +107,7 @@ type
     procedure OnCreatePlane(Sender: TObject);
     procedure OnCreateSphere(Sender: TObject);
     procedure OnCreateCube(Sender: TObject);
+    procedure OnProjectTreeChange(Sender: TObject; Node: TTreeNode);
   private
     { Private declarations }
     _scene: TScene;
@@ -100,7 +125,7 @@ implementation
 
 {$R *.dfm}
 
-uses scene.camera, scene.cube, scene.plane, scene.sphere, scene.light.spot;
+uses scene.shape;
 
 procedure TMainForm.Build;
 begin
@@ -114,8 +139,21 @@ begin
 end;
 
 procedure TMainForm.BuildProjectTree;
-begin
+var
+  i: integer;
+  shape: TShape;
+  child, node: TTreeNode;
 
+begin
+  ProjectTree.Items.Clear;
+
+  node := ProjectTree.Items.Add(nil, 'Project');
+
+  for i := 0 to _scene.ShapeCount - 1 do
+  begin
+    shape := _scene.Shapes[i];
+    child := ProjectTree.Items.AddChildObject(node, shape.Name, shape);
+  end;
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
@@ -129,52 +167,32 @@ begin
 end;
 
 procedure TMainForm.OnCreateCamera(Sender: TObject);
-var
-  camera: TSceneCamera;
-
 begin
-  camera := TSceneCamera.Create;
-  _scene.AddShape(camera);
+  _scene.CreateShape('camera');
   Build;
 end;
 
 procedure TMainForm.OnCreateCube(Sender: TObject);
-var
-  cube: TSceneCube;
-
 begin
-  cube := TSceneCube.Create;
-  _scene.AddShape(cube);
+  _scene.CreateShape('cube');
   Build;
 end;
 
 procedure TMainForm.OnCreatePlane(Sender: TObject);
-var
-  plane: TScenePlane;
-
 begin
-  plane := TScenePlane.Create;
-  _scene.AddShape(plane);
+  _scene.CreateShape('plane');
   Build;
 end;
 
 procedure TMainForm.OnCreateSphere(Sender: TObject);
-var
-  sphere: TSceneSphere;
-
 begin
-  sphere := TSceneSphere.Create;
-  _scene.AddShape(sphere);
+  _scene.CreateShape('sphere');
   Build;
 end;
 
 procedure TMainForm.OnCreateSpotLight(Sender: TObject);
-var
-  light: TSceneSpotLight;
-
 begin
-  light := TSceneSpotLight.Create;
-  _scene.AddShape(light);
+  _scene.CreateShape('pointlight');
   Build;
 end;
 
@@ -221,6 +239,14 @@ end;
 procedure TMainForm.OnHelpAbout(Sender: TObject);
 begin
   //
+end;
+
+procedure TMainForm.OnProjectTreeChange(Sender: TObject; Node: TTreeNode);
+var
+  shape: TShape;
+
+begin
+  shape := Node.Data;
 end;
 
 end.

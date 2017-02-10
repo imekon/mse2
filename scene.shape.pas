@@ -7,6 +7,9 @@ uses
 
 type
   TShape = class
+  private
+    function GetName: string;
+    procedure SetName(const Value: string);
   protected
     _parameterManager: TSceneParameterManager;
 
@@ -16,7 +19,11 @@ type
     destructor Destroy; override;
     function GetParameter<TType: TSceneValue>(const name: string): TType;
     procedure SetParameter<TType: TSceneValue>(const name: string; value: TType);
+
+    property Name: string read GetName write SetName;
   end;
+
+  TShapeType = class of TShape;
 
 implementation
 
@@ -47,9 +54,23 @@ begin
   inherited;
 end;
 
+function TShape.GetName: string;
+var
+  name: TStringValue;
+
+begin
+  name := GetParameter<TStringValue>('name');
+  result := name.Value;
+end;
+
 function TShape.GetParameter<TType>(const name: string): TType;
 begin
   result := _parameterManager.GetParameter<TType>(name);
+end;
+
+procedure TShape.SetName(const Value: string);
+begin
+  SetParameter('name', TStringValue.Create(value));
 end;
 
 procedure TShape.SetParameter<TType>(const name: string; value: TType);
