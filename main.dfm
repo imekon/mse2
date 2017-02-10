@@ -135,8 +135,6 @@ object MainForm: TMainForm
       Indent = 19
       TabOrder = 0
       OnChange = OnProjectTreeChange
-      ExplicitLeft = -3
-      ExplicitTop = -3
     end
     object ValueListEditor: TValueListEditor
       Left = 0
@@ -355,37 +353,45 @@ object MainForm: TMainForm
     object ViewCameraAction: TAction
       Category = 'View'
       Caption = 'Camera'
+      OnExecute = OnViewCamera
+      OnUpdate = OnUpdateViewCamera
     end
     object ViewFrontAction: TAction
       Category = 'View'
       Caption = 'Front'
+      OnExecute = OnViewFront
     end
     object ViewBackAction: TAction
       Category = 'View'
       Caption = 'Back'
+      OnExecute = OnViewBack
     end
     object ViewLeftAction: TAction
       Category = 'View'
       Caption = 'Left'
+      OnExecute = OnViewLeft
     end
     object ViewRightAction: TAction
       Category = 'View'
       Caption = 'Right'
+      OnExecute = OnViewRight
     end
     object ViewTopAction: TAction
       Category = 'View'
       Caption = 'Top'
+      OnExecute = OnViewTop
     end
     object ViewBottomAction: TAction
       Category = 'View'
       Caption = 'Bottom'
+      OnExecute = OnViewBottom
     end
   end
   object ImageList: TImageList
     Left = 376
     Top = 264
     Bitmap = {
-      494C01010B0048002C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010B004800300010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

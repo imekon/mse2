@@ -15,7 +15,9 @@ uses
   scene.texture in 'scene.texture.pas',
   scene.colour in 'scene.colour.pas',
   helper.build.value.editor in 'helper.build.value.editor.pas',
-  scene.light.spot in 'scene.light.spot.pas';
+  scene.light.spot in 'scene.light.spot.pas',
+  helper.build.project.tree in 'helper.build.project.tree.pas',
+  helper.build.cleanup.project in 'helper.build.cleanup.project.pas';
 
 {$R *.res}
 

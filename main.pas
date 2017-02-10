@@ -10,6 +10,7 @@ uses
   Vcl.ImgList, Vcl.ToolWin, System.Actions, Vcl.ActnList, Vcl.Menus,
   GLCrossPlatform, GLBaseClasses, GLScene, GLWin32Viewer, Vcl.Grids,
   Vcl.ValEdit, Vcl.ExtCtrls,
+  helper.build.project.tree, helper.build.cleanup.project,
   scene;
 
 type
@@ -108,11 +109,22 @@ type
     procedure OnCreateSphere(Sender: TObject);
     procedure OnCreateCube(Sender: TObject);
     procedure OnProjectTreeChange(Sender: TObject; Node: TTreeNode);
+    procedure OnViewCamera(Sender: TObject);
+    procedure OnUpdateViewCamera(Sender: TObject);
+    procedure OnViewFront(Sender: TObject);
+    procedure OnViewBack(Sender: TObject);
+    procedure OnViewLeft(Sender: TObject);
+    procedure OnViewRight(Sender: TObject);
+    procedure OnViewTop(Sender: TObject);
+    procedure OnViewBottom(Sender: TObject);
   private
     { Private declarations }
     _scene: TScene;
+    _projectCleanup: THelperBuildCleanupProject;
+    _projectTreeHelper: THelperBuildProjectTree;
     procedure Build3DScene;
     procedure BuildProjectTree;
+    procedure BuildCleanup;
     procedure Build;
   public
     { Public declarations }
@@ -131,6 +143,7 @@ procedure TMainForm.Build;
 begin
   Build3DScene;
   BuildProjectTree;
+  BuildCleanup;
 end;
 
 procedure TMainForm.Build3DScene;
@@ -138,27 +151,21 @@ begin
 
 end;
 
-procedure TMainForm.BuildProjectTree;
-var
-  i: integer;
-  shape: TShape;
-  child, node: TTreeNode;
-
+procedure TMainForm.BuildCleanup;
 begin
-  ProjectTree.Items.Clear;
+  _projectCleanup.Cleanup;
+end;
 
-  node := ProjectTree.Items.Add(nil, 'Project');
-
-  for i := 0 to _scene.ShapeCount - 1 do
-  begin
-    shape := _scene.Shapes[i];
-    child := ProjectTree.Items.AddChildObject(node, shape.Name, shape);
-  end;
+procedure TMainForm.BuildProjectTree;
+begin
+  _projectTreeHelper.Build(_scene);
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   _scene := TScene.Create;
+  _projectTreeHelper := THelperBuildProjectTree.Create(ProjectTree);
+  _projectCleanup := THelperBuildCleanupProject.Create(_scene);
 end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
@@ -247,6 +254,46 @@ var
 
 begin
   shape := Node.Data;
+end;
+
+procedure TMainForm.OnUpdateViewCamera(Sender: TObject);
+begin
+  ViewCameraAction.Enabled := Assigned(_scene.Camera);
+end;
+
+procedure TMainForm.OnViewBack(Sender: TObject);
+begin
+  //
+end;
+
+procedure TMainForm.OnViewBottom(Sender: TObject);
+begin
+  //
+end;
+
+procedure TMainForm.OnViewCamera(Sender: TObject);
+begin
+  //
+end;
+
+procedure TMainForm.OnViewFront(Sender: TObject);
+begin
+  //
+end;
+
+procedure TMainForm.OnViewLeft(Sender: TObject);
+begin
+  //
+end;
+
+procedure TMainForm.OnViewRight(Sender: TObject);
+begin
+  //
+end;
+
+procedure TMainForm.OnViewTop(Sender: TObject);
+begin
+  //
 end;
 
 end.

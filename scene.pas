@@ -26,6 +26,7 @@ type
     procedure AddShape(shape: TShape);
     procedure RemoveShape(shape: TShape);
 
+    property Camera: TSceneCamera read _camera;
     property ShapeCount: integer read GetShapeCount;
     property Shapes[index: integer]: TShape read GetShape;
   end;
