@@ -19,7 +19,7 @@ implementation
 
 function TSceneCamera.BuildGLSceneObject(owner: TGLBaseSceneObject): TGLBaseSceneObject;
 begin
-  raise Exception.Create('Not Implemented Yet');
+  result := nil;
 end;
 
 constructor TSceneCamera.Create;

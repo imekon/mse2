@@ -94,6 +94,7 @@ type
     ToolButton12: TToolButton;
     ToolButton13: TToolButton;
     Camera: TGLCamera;
+    LightSource1: TGLLightSource;
     procedure OnFileNew(Sender: TObject);
     procedure OnFileOpen(Sender: TObject);
     procedure OnFileSave(Sender: TObject);
@@ -171,7 +172,7 @@ begin
   _projectTreeHelper := THelperBuildProjectTree.Create(ProjectTree);
   _projectCleanup := THelperBuildCleanupProject.Create(_scene);
   _valueEditor := TBuildValueEditorHelper.Create(ValueListEditor);
-  _sceneBuilder := THelperBuildScene.Create(Scene.Objects, Camera, _scene);
+  _sceneBuilder := THelperBuildScene.Create(Scene, Scene.Objects, Camera, _scene);
 
   _scene.View := TSceneView.Front;
   Build3DScene;

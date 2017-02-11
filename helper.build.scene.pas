@@ -12,6 +12,7 @@ type
 
   THelperBuildScene = class
   private
+    _glScene: TGLScene;
     _root: TGLSceneRootObject;
     _camera: TGLCamera;
     _scene: TScene;
@@ -33,13 +34,16 @@ type
     procedure EditShape(shape: TShape);
     procedure DeleteShape(shape: TShape);
   public
-    constructor Create(root: TGLSceneRootObject; camera: TGLCamera; scene: TScene);
+    constructor Create(GLScene: TGLSCene; root: TGLSceneRootObject;
+      camera: TGLCamera; scene: TScene);
     procedure Build;
   end;
 
 implementation
 
 { THelperBuildScene }
+
+uses scene.camera;
 
 procedure SetVector(var vector: TVector4f; x, y, z: single; w: single = 1.0);
 begin
@@ -65,7 +69,8 @@ var
 
 begin
   obj := shape.BuildGLSceneObject(_root);
-  obj.Name := shape.Name;
+  if assigned(obj) then
+    obj.Name := shape.Name;
 end;
 
 procedure THelperBuildScene.Build;
@@ -74,12 +79,14 @@ begin
   UpdateObjects;
 end;
 
-constructor THelperBuildScene.Create(root: TGLSceneRootObject;
+constructor THelperBuildScene.Create(GLScene: TGLSCene; root: TGLSceneRootObject;
   camera: TGLCamera; scene: TScene);
 begin
+  _glScene := GLScene;
   _root := root;
   _camera := camera;
   _scene := scene;
+
   _view := TSceneView.None;
 end;
 
@@ -94,8 +101,19 @@ begin
 end;
 
 procedure THelperBuildScene.SetCamera;
+var
+  AbsoluteCenter: TVector4f;
+  UpVector: TVector4f;
+
 begin
-  //
+  SetVectorAbsoluteCenter(AbsoluteCenter);
+  SetVector(UpVector, 0.0, 1.0, 0.0);
+
+  _camera.CameraStyle := TGLCameraStyle.csPerspective;
+  _camera.Position.X := 0.0;
+  _camera.Position.Y := 0.0;
+  _camera.Position.Z := 5.0;
+  _camera.PointTo(AbsoluteCenter, UpVector);
 end;
 
 procedure THelperBuildScene.SetCameraToBack;
@@ -183,12 +201,15 @@ begin
   for i := 0 to _scene.ShapeCount - 1 do
   begin
     shape := _scene.Shapes[i];
-    if shape.IsAdded then
-      AddShape(shape)
-    else if shape.IsEdited then
-      EditShape(shape)
-    else if shape.IsDelete then
-      DeleteShape(shape);
+    if not (shape is TSceneCamera) then
+    begin
+      if shape.IsAdded then
+        AddShape(shape)
+      else if shape.IsEdited then
+        EditShape(shape)
+      else if shape.IsDelete then
+        DeleteShape(shape);
+    end;
   end;
 end;
 
