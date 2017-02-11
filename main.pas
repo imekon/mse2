@@ -94,6 +94,14 @@ type
     ToolButton12: TToolButton;
     ToolButton13: TToolButton;
     Camera: TGLCamera;
+    Cylinder1: TMenuItem;
+    Cone1: TMenuItem;
+    N4: TMenuItem;
+    CylinderAction: TAction;
+    ConeAction: TAction;
+    ToolButton14: TToolButton;
+    ToolButton15: TToolButton;
+    ToolButton16: TToolButton;
     procedure OnFileNew(Sender: TObject);
     procedure OnFileOpen(Sender: TObject);
     procedure OnFileSave(Sender: TObject);
@@ -119,6 +127,8 @@ type
     procedure OnViewRight(Sender: TObject);
     procedure OnViewTop(Sender: TObject);
     procedure OnViewBottom(Sender: TObject);
+    procedure OnCreateCylinder(Sender: TObject);
+    procedure OnCreateCone(Sender: TObject);
   private
     { Private declarations }
     _scene: TScene;
@@ -188,9 +198,21 @@ begin
   Build;
 end;
 
+procedure TMainForm.OnCreateCone(Sender: TObject);
+begin
+  _scene.CreateShape('cone');
+  Build;
+end;
+
 procedure TMainForm.OnCreateCube(Sender: TObject);
 begin
   _scene.CreateShape('cube');
+  Build;
+end;
+
+procedure TMainForm.OnCreateCylinder(Sender: TObject);
+begin
+  _scene.CreateShape('cylinder');
   Build;
 end;
 

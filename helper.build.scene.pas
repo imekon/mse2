@@ -129,16 +129,27 @@ begin
   SetVectorAbsoluteCenter(AbsoluteCenter);
   SetVector(UpVector, 0.0, 1.0, 0.0);
 
-  _camera.CameraStyle := TGLCameraStyle.csOrtho2D;
+  _camera.CameraStyle := TGLCameraStyle.csOrthogonal;
   _camera.Position.X := 0.0;
   _camera.Position.Y := 0.0;
-  _camera.Position.Z := -1000.0;
+  _camera.Position.Z := -5.0;
   _camera.PointTo(AbsoluteCenter, UpVector);
 end;
 
 procedure THelperBuildScene.SetCameraToBottom;
-begin
+var
+  AbsoluteCenter: TVector4f;
+  UpVector: TVector4f;
 
+begin
+  SetVectorAbsoluteCenter(AbsoluteCenter);
+  SetVector(UpVector, 0.0, 0.0, 1.0);
+
+  _camera.CameraStyle := TGLCameraStyle.csOrthogonal;
+  _camera.Position.X := 0.0;
+  _camera.Position.Y := -5.0;
+  _camera.Position.Z := 0.0;
+  _camera.PointTo(AbsoluteCenter, UpVector);
 end;
 
 procedure THelperBuildScene.SetCameraToFront;
@@ -150,16 +161,27 @@ begin
   SetVectorAbsoluteCenter(AbsoluteCenter);
   SetVector(UpVector, 0.0, 1.0, 0.0);
 
-  _camera.CameraStyle := TGLCameraStyle.csOrtho2D;
+  _camera.CameraStyle := TGLCameraStyle.csOrthogonal;
   _camera.Position.X := 0.0;
   _camera.Position.Y := 0.0;
-  _camera.Position.Z := 1000.0;
+  _camera.Position.Z := 5.0;
   _camera.PointTo(AbsoluteCenter, UpVector);
 end;
 
 procedure THelperBuildScene.SetCameraToLeft;
-begin
+var
+  AbsoluteCenter: TVector4f;
+  UpVector: TVector4f;
 
+begin
+  SetVectorAbsoluteCenter(AbsoluteCenter);
+  SetVector(UpVector, 0.0, 1.0, 0.0);
+
+  _camera.CameraStyle := TGLCameraStyle.csOrthogonal;
+  _camera.Position.X := -5.0;
+  _camera.Position.Y := 0.0;
+  _camera.Position.Z := 0.0;
+  _camera.PointTo(AbsoluteCenter, UpVector);
 end;
 
 procedure THelperBuildScene.SetCameraToNone;
@@ -168,13 +190,35 @@ begin
 end;
 
 procedure THelperBuildScene.SetCameraToRight;
-begin
+var
+  AbsoluteCenter: TVector4f;
+  UpVector: TVector4f;
 
+begin
+  SetVectorAbsoluteCenter(AbsoluteCenter);
+  SetVector(UpVector, 0.0, 1.0, 0.0);
+
+  _camera.CameraStyle := TGLCameraStyle.csOrthogonal;
+  _camera.Position.X := 5.0;
+  _camera.Position.Y := 0.0;
+  _camera.Position.Z := 0.0;
+  _camera.PointTo(AbsoluteCenter, UpVector);
 end;
 
 procedure THelperBuildScene.SetCameraToTop;
-begin
+var
+  AbsoluteCenter: TVector4f;
+  UpVector: TVector4f;
 
+begin
+  SetVectorAbsoluteCenter(AbsoluteCenter);
+  SetVector(UpVector, 0.0, 0.0, -1.0);
+
+  _camera.CameraStyle := TGLCameraStyle.csOrthogonal;
+  _camera.Position.X := 0.0;
+  _camera.Position.Y := 5.0;
+  _camera.Position.Z := 0.0;
+  _camera.PointTo(AbsoluteCenter, UpVector);
 end;
 
 procedure THelperBuildScene.UpdateCamera;

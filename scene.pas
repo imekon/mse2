@@ -39,7 +39,9 @@ implementation
 
 { TScene }
 
-uses scene.light.spot, scene.plane, scene.cube, scene.sphere;
+uses
+  scene.light.spot, scene.plane, scene.cube, scene.sphere, scene.cylinder,
+  scene.cone;
 
 procedure TScene.AddShape(shape: TShape);
 begin
@@ -61,6 +63,8 @@ begin
   RegisterShape('plane', TScenePlane);
   RegisterShape('cube', TSceneCube);
   RegisterShape('sphere', TSceneSphere);
+  RegisterShape('cylinder', TSceneCylinder);
+  RegisterShape('cone', TSceneCone);
 end;
 
 procedure TScene.CreateShape(const name: string);
