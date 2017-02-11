@@ -35,6 +35,7 @@ var
 
 begin
   parameter := TSceneParameter<TType>.Create(name, group);
+  parameter.Value := value;
   _parameters.Add(parameter);
 end;
 

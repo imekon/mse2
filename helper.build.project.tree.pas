@@ -24,14 +24,19 @@ procedure THelperBuildProjectTree.Build(scene: TScene);
 var
   i: integer;
   shape: TShape;
-  child, node: TTreeNode;
+  node: TTreeNode;
 
 begin
   for i := 0 to scene.ShapeCount - 1 do
   begin
     shape := scene.Shapes[i];
-    if TShapeState.Add in shape.Status then
-      child := _projectTree.Items.AddChildObject(_root, shape.Name, shape);
+    if shape.IsAdded then
+    begin
+      node := _projectTree.Items.AddChildObject(_root, shape.Name, shape);
+      shape.TreeNode := node;
+    end
+    else if shape.IsEdited then
+      shape.TreeNode.Text := shape.Name;
   end;
 end;
 

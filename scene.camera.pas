@@ -18,8 +18,8 @@ implementation
 constructor TSceneCamera.Create;
 begin
   inherited;
-  _parameterManager.AddParameter<TSceneVector>('position', TSceneVector.Create, TSceneParameterGroup.Camera);
-  _parameterManager.AddParameter<TSceneVector>('lookat', TSceneVector.Create, TSceneParameterGroup.Camera);
+  _parameterManager.AddParameter<TSceneVector>('position', TSceneVector.Create(0.0, 0.0, 5.0), TSceneParameterGroup.Camera);
+  _parameterManager.AddParameter<TSceneVector>('lookat', TSceneVector.Create(0.0, 0.0, 0.0), TSceneParameterGroup.Camera);
 end;
 
 end.

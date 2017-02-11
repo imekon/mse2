@@ -11,6 +11,7 @@ uses
   GLCrossPlatform, GLBaseClasses, GLScene, GLWin32Viewer, Vcl.Grids,
   Vcl.ValEdit, Vcl.ExtCtrls,
   helper.build.project.tree, helper.build.cleanup.project,
+  helper.build.value.editor,
   scene;
 
 type
@@ -122,6 +123,7 @@ type
     _scene: TScene;
     _projectCleanup: THelperBuildCleanupProject;
     _projectTreeHelper: THelperBuildProjectTree;
+    _valueEditor: TBuildValueEditorHelper;
     procedure Build3DScene;
     procedure BuildProjectTree;
     procedure BuildCleanup;
@@ -166,6 +168,7 @@ begin
   _scene := TScene.Create;
   _projectTreeHelper := THelperBuildProjectTree.Create(ProjectTree);
   _projectCleanup := THelperBuildCleanupProject.Create(_scene);
+  _valueEditor := TBuildValueEditorHelper.Create(ValueListEditor);
 end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
@@ -254,6 +257,8 @@ var
 
 begin
   shape := Node.Data;
+  if assigned(shape) then
+    _valueEditor.Build(shape.ParameterManager);
 end;
 
 procedure TMainForm.OnUpdateViewCamera(Sender: TObject);

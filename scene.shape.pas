@@ -3,6 +3,7 @@ unit scene.shape;
 interface
 
 uses
+  Vcl.ComCtrls,
   scene.vector, scene.parameter, scene.parameter.manager;
 
 type
@@ -12,6 +13,7 @@ type
   TShape = class
   private
     _status: TShapeStatus;
+    _treeNode: TTreeNode;
     function GetName: string;
     procedure SetName(const Value: string);
     function GetIsAdded: boolean;
@@ -33,6 +35,8 @@ type
     property IsAdded: boolean read GetIsAdded;
     property IsEdited: boolean read GetIsEdited;
     property IsDelete: boolean read GetIsDeleted;
+    property TreeNode: TTreeNode read _treeNode write _treeNode;
+    property ParameterManager: TSceneParameterManager read _parameterManager;
   end;
 
   TShapeType = class of TShape;
@@ -43,11 +47,13 @@ implementation
 
 procedure TShape.AddStandardParameters;
 begin
-  _parameterManager.AddParameter<TSceneVector>('translate', TSceneVector.Create,
+  _parameterManager.AddParameter<TSceneVector>('translate',
+    TSceneVector.Create(0.0, 0.0, 0.0),
     TSceneParameterGroup.Transform);
   _parameterManager.AddParameter<TSceneVector>('scale',
     TSceneVector.Create(1.0, 1.0, 1.0), TSceneParameterGroup.Transform);
-  _parameterManager.AddParameter<TSceneVector>('rotate', TSceneVector.Create,
+  _parameterManager.AddParameter<TSceneVector>('rotate',
+    TSceneVector.Create(0.0, 0.0, 0.0),
     TSceneParameterGroup.Transform);
   _parameterManager.AddParameter<TStringValue>('texture',
     TStringValue.Create('unknown'), TSceneParameterGroup.Texture);
@@ -59,6 +65,7 @@ begin
   _parameterManager := TSceneParameterManager.Create;
   _parameterManager.AddParameter<TStringValue>('name',
     TStringValue.Create('untitled'), TSceneParameterGroup.Basic);
+  _treeNode := nil;
 end;
 
 destructor TShape.Destroy;

@@ -11,8 +11,7 @@ type
   private
     _x, _y, _z: single;
   public
-    constructor Create; overload;
-    constructor Create(x, y, z: single); overload;
+    constructor Create(x, y, z: single);
     function ToString: string; override;
     property X: single read _x write _x;
     property Y: single read _y write _y;
@@ -22,14 +21,6 @@ type
 implementation
 
 { TSceneVector }
-
-constructor TSceneVector.Create;
-begin
-  inherited;
-  _x := 0.0;
-  _y := 0.0;
-  _z := 0.0;
-end;
 
 constructor TSceneVector.Create(x, y, z: single);
 begin

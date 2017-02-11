@@ -23,7 +23,7 @@ begin
   _parameters := TSceneParameterManager.Create;
 
   _parameters.AddParameter<TStringValue>('name', TStringValue.Create('untitled'), TSceneParameterGroup.Basic);
-  _parameters.AddParameter<TSceneColour>('colour', TSceneColour.Create, TSceneParameterGroup.Colour);
+  _parameters.AddParameter<TSceneColourAlpha>('colour', TSceneColourAlpha.Create(1.0, 0.0, 0.0, 1.0), TSceneParameterGroup.Colour);
 end;
 
 destructor TSceneTexture.Destroy;

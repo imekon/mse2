@@ -77,7 +77,10 @@ end;
 
 function TSceneParameter<TType>.ToString: string;
 begin
-  result := _value.ToString;
+  if assigned(_value) then
+    result := _value.ToString
+  else
+    result := 'parameter value is nil';
 end;
 
 { TSceneParameter }
