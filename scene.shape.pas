@@ -3,7 +3,9 @@ unit scene.shape;
 interface
 
 uses
+  System.Classes,
   Vcl.ComCtrls,
+  GLScene,
   scene.vector, scene.parameter, scene.parameter.manager;
 
 type
@@ -20,6 +22,7 @@ type
     function GetIsDeleted: boolean;
     function GetIsEdited: boolean;
   protected
+    _object: TGLBaseSceneObject;
     _parameterManager: TSceneParameterManager;
 
     procedure AddStandardParameters;
@@ -29,6 +32,8 @@ type
     procedure ResetStatus;
     function GetParameter<TType: TSceneValue>(const name: string): TType;
     procedure SetParameter<TType: TSceneValue>(const name: string; value: TType);
+    function BuildGLSceneObject(owner: TGLBaseSceneObject): TGLBaseSceneObject; virtual; abstract;
+    procedure UpdateGLSceneObject; virtual; abstract;
 
     property Name: string read GetName write SetName;
     property Status: TShapeStatus read _status;
@@ -36,6 +41,7 @@ type
     property IsEdited: boolean read GetIsEdited;
     property IsDelete: boolean read GetIsDeleted;
     property TreeNode: TTreeNode read _treeNode write _treeNode;
+    property GLSceneObject: TGLBaseSceneObject read _object write _object;
     property ParameterManager: TSceneParameterManager read _parameterManager;
   end;
 
@@ -66,6 +72,7 @@ begin
   _parameterManager.AddParameter<TStringValue>('name',
     TStringValue.Create('untitled'), TSceneParameterGroup.Basic);
   _treeNode := nil;
+  _object := nil;
 end;
 
 destructor TShape.Destroy;

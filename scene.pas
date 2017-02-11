@@ -10,11 +10,14 @@ type
   ESceneBadShape = class(Exception)
   end;
 
+  TSceneView = (Camera, Front, Back, Top, Bottom, Left, Right, None);
+
   TScene = class
   private
     _counter: integer;
     _camera: TSceneCamera;
     _shapes: TObjectList<TShape>;
+    _view: TSceneView;
     _registration: TDictionary<string, TShapeType>;
     procedure RegisterShape(const name: string; shapeType: TShapeType);
     function GetShape(index: integer): TShape;
@@ -27,6 +30,7 @@ type
     procedure RemoveShape(shape: TShape);
 
     property Camera: TSceneCamera read _camera;
+    property View: TSceneView read _view write _view;
     property ShapeCount: integer read GetShapeCount;
     property Shapes[index: integer]: TShape read GetShape;
   end;
@@ -50,6 +54,7 @@ begin
   _registration := TDictionary<string, TShapeType>.Create;
 
   _camera := nil;
+  _view := TSceneView.Front;
 
   RegisterShape('camera', TSceneCamera);
   RegisterShape('pointlight', TSceneSpotLight);

@@ -163,7 +163,9 @@ object MainForm: TMainForm
     Top = 29
     Width = 734
     Height = 599
+    Camera = Camera
     Buffer.BackgroundColor = clBlack
+    FieldOfView = 161.044342041015600000
     Align = alClient
     TabOrder = 3
   end
@@ -235,27 +237,34 @@ object MainForm: TMainForm
       Caption = '&View'
       object Camera2: TMenuItem
         Action = ViewCameraAction
+        AutoCheck = True
       end
       object N3: TMenuItem
         Caption = '-'
       end
       object Front1: TMenuItem
         Action = ViewFrontAction
+        AutoCheck = True
       end
       object Back1: TMenuItem
         Action = ViewBackAction
+        AutoCheck = True
       end
       object Left1: TMenuItem
         Action = ViewLeftAction
+        AutoCheck = True
       end
       object Right1: TMenuItem
         Action = ViewRightAction
+        AutoCheck = True
       end
       object op1: TMenuItem
         Action = ViewTopAction
+        AutoCheck = True
       end
       object Bottom1: TMenuItem
         Action = ViewBottomAction
+        AutoCheck = True
       end
     end
     object Help1: TMenuItem
@@ -352,38 +361,52 @@ object MainForm: TMainForm
     end
     object ViewCameraAction: TAction
       Category = 'View'
+      AutoCheck = True
       Caption = 'Camera'
+      GroupIndex = 1
       OnExecute = OnViewCamera
       OnUpdate = OnUpdateViewCamera
     end
     object ViewFrontAction: TAction
       Category = 'View'
+      AutoCheck = True
       Caption = 'Front'
+      GroupIndex = 1
       OnExecute = OnViewFront
     end
     object ViewBackAction: TAction
       Category = 'View'
+      AutoCheck = True
       Caption = 'Back'
+      GroupIndex = 1
       OnExecute = OnViewBack
     end
     object ViewLeftAction: TAction
       Category = 'View'
+      AutoCheck = True
       Caption = 'Left'
+      GroupIndex = 1
       OnExecute = OnViewLeft
     end
     object ViewRightAction: TAction
       Category = 'View'
+      AutoCheck = True
       Caption = 'Right'
+      GroupIndex = 1
       OnExecute = OnViewRight
     end
     object ViewTopAction: TAction
       Category = 'View'
+      AutoCheck = True
       Caption = 'Top'
+      GroupIndex = 1
       OnExecute = OnViewTop
     end
     object ViewBottomAction: TAction
       Category = 'View'
+      AutoCheck = True
       Caption = 'Bottom'
+      GroupIndex = 1
       OnExecute = OnViewBottom
     end
   end
@@ -391,7 +414,7 @@ object MainForm: TMainForm
     Left = 376
     Top = 264
     Bitmap = {
-      494C01010B004800340010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010B0048003C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -797,5 +820,10 @@ object MainForm: TMainForm
   object Scene: TGLScene
     Left = 480
     Top = 480
+    object Camera: TGLCamera
+      DepthOfView = 100.000000000000000000
+      FocalLength = 50.000000000000000000
+      CameraStyle = csOrtho2D
+    end
   end
 end

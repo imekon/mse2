@@ -17,7 +17,8 @@ uses
   helper.build.value.editor in 'helper.build.value.editor.pas',
   scene.light.spot in 'scene.light.spot.pas',
   helper.build.project.tree in 'helper.build.project.tree.pas',
-  helper.build.cleanup.project in 'helper.build.cleanup.project.pas';
+  helper.build.cleanup.project in 'helper.build.cleanup.project.pas',
+  helper.build.scene in 'helper.build.scene.pas';
 
 {$R *.res}
 
