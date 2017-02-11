@@ -70,7 +70,11 @@ var
 begin
   obj := shape.BuildGLSceneObject(_root);
   if assigned(obj) then
+  begin
+    shape.GLSceneObject := obj;
     obj.Name := shape.Name;
+    shape.UpdateGLSceneObject;
+  end;
 end;
 
 procedure THelperBuildScene.Build;

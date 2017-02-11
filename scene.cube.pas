@@ -19,10 +19,10 @@ implementation
 
 function TSceneCube.BuildGLSceneObject(owner: TGLBaseSceneObject): TGLBaseSceneObject;
 var
-  cube: TGLBaseSceneObject;
+  cube: TGLCube;
 
 begin
-  cube := owner.AddNewChild(TGLCube);
+  cube := owner.AddNewChild(TGLCube) as TGLCube;
   result := cube;
 end;
 
@@ -34,7 +34,7 @@ end;
 
 procedure TSceneCube.UpdateGLSceneObject;
 begin
-
+  UpdateStandardParameters;
 end;
 
 end.

@@ -26,6 +26,7 @@ type
     _parameterManager: TSceneParameterManager;
 
     procedure AddStandardParameters;
+    procedure UpdateStandardParameters;
   public
     constructor Create; virtual;
     destructor Destroy; override;
@@ -124,6 +125,29 @@ procedure TShape.SetParameter<TType>(const name: string; value: TType);
 begin
   _parameterManager.SetParameter<TType>(name, value);
   _status := _status + [TShapeState.Edit];
+end;
+
+procedure TShape.UpdateStandardParameters;
+var
+  position, scale, rotate: TSceneVector;
+
+begin
+  position := GetParameter<TSceneVector>('translate');
+  scale := GetParameter<TSceneVector>('scale');
+  rotate := GetParameter<TSceneVector>('rotate');
+
+  _object.Position.X := position.X;
+  _object.Position.Y := position.Y;
+  _object.Position.Z := position.Z;
+
+  _object.Scale.X := scale.X;
+  _object.Scale.Y := scale.Y;
+  _object.Scale.Z := scale.Z;
+
+  // TODO: These are probably wrong!
+  _object.Turn(rotate.X);
+  _object.Roll(rotate.Y);
+  _object.Pitch(rotate.Z);
 end;
 
 end.

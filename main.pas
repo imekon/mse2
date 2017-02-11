@@ -94,7 +94,6 @@ type
     ToolButton12: TToolButton;
     ToolButton13: TToolButton;
     Camera: TGLCamera;
-    LightSource1: TGLLightSource;
     procedure OnFileNew(Sender: TObject);
     procedure OnFileOpen(Sender: TObject);
     procedure OnFileSave(Sender: TObject);
