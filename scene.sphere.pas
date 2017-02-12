@@ -21,13 +21,17 @@ unit scene.sphere;
 interface
 
 uses
+  System.JSON,
   GLScene, GLObjects,
+  helper.JSON,
   scene.vector, scene.shape;
 
 type
   TSceneSphere = class(TShape)
   public
     constructor Create; override;
+    procedure Load(obj: TJSONObject); override;
+    procedure Save(obj: TJSONObject); override;
     function BuildGLSceneObject(owner: TGLBaseSceneObject): TGLBaseSceneObject; override;
     procedure UpdateGLSceneObject; override;
   end;
@@ -50,6 +54,17 @@ constructor TSceneSphere.Create;
 begin
   inherited;
   AddStandardParameters;
+end;
+
+procedure TSceneSphere.Load(obj: TJSONObject);
+begin
+  inherited;
+end;
+
+procedure TSceneSphere.Save(obj: TJSONObject);
+begin
+  obj.AddPair('shape', 'sphere');
+  inherited;
 end;
 
 procedure TSceneSphere.UpdateGLSceneObject;

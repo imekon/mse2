@@ -21,12 +21,17 @@ unit scene.plane;
 interface
 
 uses
-  GLScene, GLObjects, scene.shape;
+  System.JSON,
+  GLScene, GLObjects,
+  helper.JSON,
+  scene.shape;
 
 type
   TScenePlane = class(TShape)
   public
     constructor Create; override;
+    procedure Load(obj: TJSONObject); override;
+    procedure Save(obj: TJSONObject); override;
     function BuildGLSceneObject(owner: TGLBaseSceneObject): TGLBaseSceneObject; override;
     procedure UpdateGLSceneObject; override;
   end;
@@ -49,6 +54,17 @@ constructor TScenePlane.Create;
 begin
   inherited;
   AddStandardParameters;
+end;
+
+procedure TScenePlane.Load(obj: TJSONObject);
+begin
+  inherited;
+end;
+
+procedure TScenePlane.Save(obj: TJSONObject);
+begin
+  obj.AddPair('shape', 'plane');
+  inherited;
 end;
 
 procedure TScenePlane.UpdateGLSceneObject;

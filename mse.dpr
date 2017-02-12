@@ -22,7 +22,8 @@ uses
   scene.cylinder in 'scene.cylinder.pas',
   scene.cone in 'scene.cone.pas',
   helper.json in 'helper.json.pas',
-  helper.utilities in 'helper.utilities.pas';
+  helper.utilities in 'helper.utilities.pas',
+  form.about in 'form.about.pas' {AboutBox};
 
 {$R *.res}
 

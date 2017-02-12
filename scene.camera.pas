@@ -21,12 +21,17 @@ unit scene.camera;
 interface
 
 uses
-  System.Classes, System.SysUtils, GLScene, scene.vector, scene.shape, scene.parameter;
+  System.Classes, System.SysUtils, System.JSON,
+  GLScene,
+  helper.JSON,
+  scene.vector, scene.shape, scene.parameter;
 
 type
   TSceneCamera = class(TShape)
   public
     constructor Create; override;
+    procedure Load(obj: TJSONObject); override;
+    procedure Save(obj: TJSONObject); override;
     function BuildGLSceneObject(owner: TGLBaseSceneObject): TGLBaseSceneObject; override;
     procedure UpdateGLSceneObject; override;
   end;
@@ -45,6 +50,17 @@ begin
   inherited;
   _parameterManager.AddParameter<TVectorValue>('position', TVectorValue.Create(0.0, 0.0, 5.0), TSceneParameterGroup.Camera);
   _parameterManager.AddParameter<TVectorValue>('lookat', TVectorValue.Create(0.0, 0.0, 0.0), TSceneParameterGroup.Camera);
+end;
+
+procedure TSceneCamera.Load(obj: TJSONObject);
+begin
+  inherited;
+end;
+
+procedure TSceneCamera.Save(obj: TJSONObject);
+begin
+  obj.AddPair('shape', 'camera');
+  inherited;
 end;
 
 procedure TSceneCamera.UpdateGLSceneObject;

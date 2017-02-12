@@ -21,7 +21,7 @@ unit scene.shape;
 interface
 
 uses
-  System.Classes,
+  System.Classes, System.JSON,
   Vcl.ComCtrls,
   GLScene,
   scene.vector, scene.parameter, scene.parameter.manager;
@@ -49,6 +49,8 @@ type
     constructor Create; virtual;
     destructor Destroy; override;
     procedure ResetStatus;
+    procedure Load(obj: TJSONObject); virtual;
+    procedure Save(obj: TJSONObject); virtual;
     function GetParameter<TType: TSceneValue>(const name: string): TType;
     procedure SetParameter<TType: TSceneValue>(const name: string; value: TType);
     function BuildGLSceneObject(owner: TGLBaseSceneObject): TGLBaseSceneObject; virtual; abstract;
@@ -129,9 +131,19 @@ begin
   result := _parameterManager.GetParameter<TType>(name);
 end;
 
+procedure TShape.Load(obj: TJSONObject);
+begin
+  _parameterManager.Load(obj);
+end;
+
 procedure TShape.ResetStatus;
 begin
   _status := [];
+end;
+
+procedure TShape.Save(obj: TJSONObject);
+begin
+  _parameterManager.Save(obj);
 end;
 
 procedure TShape.SetName(const Value: string);

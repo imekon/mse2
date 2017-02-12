@@ -21,13 +21,17 @@ unit scene.light.spot;
 interface
 
 uses
+  System.JSON,
   GLScene, GLObjects,
+  helper.JSON,
   scene.vector, scene.shape, scene.colour, scene.parameter;
 
 type
   TSceneSpotLight = class(TShape)
   public
     constructor Create; override;
+    procedure Load(obj: TJSONObject); override;
+    procedure Save(obj: TJSONObject); override;
     function BuildGLSceneObject(owner: TGLBaseSceneObject): TGLBaseSceneObject; override;
     procedure UpdateGLSceneObject; override;
   end;
@@ -50,6 +54,17 @@ begin
   inherited;
   _parameterManager.AddParameter<TVectorValue>('position', TVectorValue.Create(2.0, 2.0, 2.0), TSceneParameterGroup.Transform);
   _parameterManager.AddParameter<TSceneColour>('colour', TSceneColour.Create(1.0, 1.0, 1.0), TSceneParameterGroup.Colour);
+end;
+
+procedure TSceneSpotLight.Load(obj: TJSONObject);
+begin
+  inherited;
+end;
+
+procedure TSceneSpotLight.Save(obj: TJSONObject);
+begin
+  obj.AddPair('shape', 'pointlight');
+  inherited;
 end;
 
 procedure TSceneSpotLight.UpdateGLSceneObject;

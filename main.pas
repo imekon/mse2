@@ -169,7 +169,7 @@ implementation
 
 {$R *.dfm}
 
-uses scene.shape;
+uses scene.shape, form.about;
 
 procedure TMainForm.Build;
 begin
@@ -293,8 +293,16 @@ begin
 end;
 
 procedure TMainForm.OnHelpAbout(Sender: TObject);
+var
+  dialog: TAboutBox;
+
 begin
-  //
+  dialog := TAboutBox.Create(self);
+  try
+    dialog.ShowModal;
+  finally
+    dialog.Free;
+  end;
 end;
 
 procedure TMainForm.OnProjectTreeChange(Sender: TObject; Node: TTreeNode);

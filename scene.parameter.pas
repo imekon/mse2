@@ -74,6 +74,8 @@ type
     _group: TSceneParameterGroup;
   public
     constructor Create(const name: string; group: TSceneParameterGroup); virtual;
+    procedure Save(obj: TJSONObject); virtual; abstract;
+    procedure Load(obj: TJSONObject); virtual; abstract;
     property Name: string read _name;
   end;
 
@@ -84,8 +86,8 @@ type
   public
     constructor Create(const name: string; group: TSceneParameterGroup); override;
     function ToString: string; override;
-    procedure Save(obj: TJSONObject);
-    procedure Load(obj: TJSONObject);
+    procedure Save(obj: TJSONObject); override;
+    procedure Load(obj: TJSONObject); override;
     property Value: TType read _value write SetValue;
   end;
 

@@ -21,13 +21,17 @@ unit scene.cylinder;
 interface
 
 uses
+  System.JSON,
   GLScene, GLGeomObjects,
+  helper.JSON,
   scene.parameter, scene.shape;
 
 type
   TSceneCylinder = class(TShape)
   public
     constructor Create; override;
+    procedure Load(obj: TJSONObject); override;
+    procedure Save(obj: TJSONObject); override;
     function BuildGLSceneObject(owner: TGLBaseSceneObject): TGLBaseSceneObject; override;
     procedure UpdateGLSceneObject; override;
   end;
@@ -51,8 +55,19 @@ begin
   inherited;
   AddStandardParameters;
   _parameterManager.AddParameter<TSingleValue>('radius',
-    TSingleValue.Create(1.0),
+    TSingleValue.Create(0.5),
     TSceneParameterGroup.Details);
+end;
+
+procedure TSceneCylinder.Load(obj: TJSONObject);
+begin
+  inherited;
+end;
+
+procedure TSceneCylinder.Save(obj: TJSONObject);
+begin
+  obj.AddPair('shape', 'cylinder');
+  inherited;
 end;
 
 procedure TSceneCylinder.UpdateGLSceneObject;

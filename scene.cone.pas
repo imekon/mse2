@@ -21,13 +21,17 @@ unit scene.cone;
 interface
 
 uses
+  System.JSON,
   GLScene, GLGeomObjects,
+  helper.JSON,
   scene.parameter, scene.shape;
 
 type
   TSceneCone = class(TShape)
   public
     constructor Create; override;
+    procedure Load(obj: TJSONObject); override;
+    procedure Save(obj: TJSONObject); override;
     function BuildGLSceneObject(owner: TGLBaseSceneObject): TGLBaseSceneObject; override;
     procedure UpdateGLSceneObject; override;
   end;
@@ -55,8 +59,19 @@ begin
     TSingleValue.Create(0.0),
     TSceneParameterGroup.Details);
   _parameterManager.AddParameter<TSingleValue>('bottom',
-    TSingleValue.Create(1.0),
+    TSingleValue.Create(0.5),
     TSceneParameterGroup.Details);
+end;
+
+procedure TSceneCone.Load(obj: TJSONObject);
+begin
+  inherited;
+end;
+
+procedure TSceneCone.Save(obj: TJSONObject);
+begin
+  obj.AddPair('shape', 'cone');
+  inherited;
 end;
 
 procedure TSceneCone.UpdateGLSceneObject;

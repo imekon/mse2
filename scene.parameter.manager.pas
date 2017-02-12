@@ -21,7 +21,7 @@ unit scene.parameter.manager;
 interface
 
 uses
-  System.Generics.Collections,
+  System.JSON, System.Generics.Collections,
   scene.parameter;
 
 type
@@ -37,6 +37,8 @@ type
     procedure AddParameter<TType: TSceneValue>(const name: string; value: TType; group: TSceneParameterGroup);
     function GetParameter<TType: TSceneValue>(const name: string): TType;
     procedure SetParameter<TType: TSceneValue>(const name: string; const value: TType);
+    procedure Save(obj: TJSONObject);
+    procedure Load(obj: TJSONObject);
 
     property ParameterCount: integer read GetParameterCount;
     property Parameter[index: integer]: TSceneParameter read GetParameterByIndex;
@@ -105,6 +107,24 @@ end;
 function TSceneParameterManager.GetParameterCount: integer;
 begin
   result := _parameters.Count;
+end;
+
+procedure TSceneParameterManager.Load(obj: TJSONObject);
+var
+  parameter: TSceneParameter;
+
+begin
+  for parameter in _parameters do
+    parameter.Load(obj);
+end;
+
+procedure TSceneParameterManager.Save(obj: TJSONObject);
+var
+  parameter: TSceneParameter;
+
+begin
+  for parameter in _parameters do
+    parameter.Save(obj);
 end;
 
 procedure TSceneParameterManager.SetParameter<TType>(const name: string;

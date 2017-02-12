@@ -21,12 +21,17 @@ unit scene.cube;
 interface
 
 uses
-  System.Classes, GLScene, GLObjects, scene.shape;
+  System.Classes, System.JSON,
+  GLScene, GLObjects,
+  helper.JSON,
+  scene.shape;
 
 type
   TSceneCube = class(TShape)
   public
     constructor Create; override;
+    procedure Load(obj: TJSONObject); override;
+    procedure Save(obj: TJSONObject); override;
     function BuildGLSceneObject(owner: TGLBaseSceneObject): TGLBaseSceneObject; override;
     procedure UpdateGLSceneObject; override;
   end;
@@ -48,6 +53,17 @@ constructor TSceneCube.Create;
 begin
   inherited;
   AddStandardParameters;
+end;
+
+procedure TSceneCube.Load(obj: TJSONObject);
+begin
+  inherited;
+end;
+
+procedure TSceneCube.Save(obj: TJSONObject);
+begin
+  obj.AddPair('shape', 'cube');
+  inherited;
 end;
 
 procedure TSceneCube.UpdateGLSceneObject;

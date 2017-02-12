@@ -21,7 +21,7 @@ unit scene;
 interface
 
 uses
-  System.SysUtils, System.Generics.Collections,
+  System.IOUtils, System.SysUtils, System.JSON, System.Generics.Collections,
   scene.shape, scene.camera;
 
 type
@@ -46,6 +46,8 @@ type
     procedure CreateShape(const name: string);
     procedure AddShape(shape: TShape);
     procedure RemoveShape(shape: TShape);
+    procedure Save(const filename: string);
+    procedure Load(const filename: string);
 
     property Camera: TSceneCamera read _camera;
     property View: TSceneView read _view write _view;
@@ -124,6 +126,28 @@ begin
   result := _shapes.Count;
 end;
 
+procedure TScene.Load(const filename: string);
+var
+  i, n: integer;
+  data, t: string;
+  shape: TShape;
+  root: TJSONObject;
+  shapesArray: TJSONArray;
+  obj: TJSONObject;
+
+begin
+  data := TFile.ReadAllText(filename);
+  root := TJSONObject.ParseJSONValue(data, true) as TJSONObject;
+  shapesArray := root.Get('shapes').JsonValue as TJSONArray;
+  n := shapesArray.Count;
+  for i := 0 to n - 1 do
+  begin
+    obj := shapesArray.Items[i] as TJSONObject;
+    t := obj.GetValue('shape').Value;
+
+  end;
+end;
+
 procedure TScene.RegisterShape(const name: string; shapeType: TShapeType);
 begin
   _registration.Add(name, shapeType);
@@ -132,6 +156,11 @@ end;
 procedure TScene.RemoveShape(shape: TShape);
 begin
   _shapes.Remove(shape);
+end;
+
+procedure TScene.Save(const filename: string);
+begin
+
 end;
 
 end.
