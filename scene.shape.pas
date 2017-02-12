@@ -1,3 +1,21 @@
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 1, or (at your option)
+// any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+//
+
+// Author: Pete Goodwin (mse@imekon.org)
+
 unit scene.shape;
 
 interface
@@ -54,13 +72,13 @@ implementation
 
 procedure TShape.AddStandardParameters;
 begin
-  _parameterManager.AddParameter<TSceneVector>('translate',
-    TSceneVector.Create(0.0, 0.0, 0.0),
+  _parameterManager.AddParameter<TVectorValue>('translate',
+    TVectorValue.Create(0.0, 0.0, 0.0),
     TSceneParameterGroup.Transform);
-  _parameterManager.AddParameter<TSceneVector>('scale',
-    TSceneVector.Create(1.0, 1.0, 1.0), TSceneParameterGroup.Transform);
-  _parameterManager.AddParameter<TSceneVector>('rotate',
-    TSceneVector.Create(0.0, 0.0, 0.0),
+  _parameterManager.AddParameter<TVectorValue>('scale',
+    TVectorValue.Create(1.0, 1.0, 1.0), TSceneParameterGroup.Transform);
+  _parameterManager.AddParameter<TVectorValue>('rotate',
+    TVectorValue.Create(0.0, 0.0, 0.0),
     TSceneParameterGroup.Transform);
   _parameterManager.AddParameter<TStringValue>('texture',
     TStringValue.Create('unknown'), TSceneParameterGroup.Texture);
@@ -129,12 +147,12 @@ end;
 
 procedure TShape.UpdateStandardParameters;
 var
-  position, scale, rotate: TSceneVector;
+  position, scale, rotate: TVectorValue;
 
 begin
-  position := GetParameter<TSceneVector>('translate');
-  scale := GetParameter<TSceneVector>('scale');
-  rotate := GetParameter<TSceneVector>('rotate');
+  position := GetParameter<TVectorValue>('translate');
+  scale := GetParameter<TVectorValue>('scale');
+  rotate := GetParameter<TVectorValue>('rotate');
 
   _object.Position.X := position.X;
   _object.Position.Y := position.Y;

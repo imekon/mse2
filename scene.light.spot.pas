@@ -1,3 +1,21 @@
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 1, or (at your option)
+// any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+//
+
+// Author: Pete Goodwin (mse@imekon.org)
+
 unit scene.light.spot;
 
 interface
@@ -30,20 +48,20 @@ end;
 constructor TSceneSpotLight.Create;
 begin
   inherited;
-  _parameterManager.AddParameter<TSceneVector>('position', TSceneVector.Create(2.0, 2.0, 2.0), TSceneParameterGroup.Transform);
+  _parameterManager.AddParameter<TVectorValue>('position', TVectorValue.Create(2.0, 2.0, 2.0), TSceneParameterGroup.Transform);
   _parameterManager.AddParameter<TSceneColour>('colour', TSceneColour.Create(1.0, 1.0, 1.0), TSceneParameterGroup.Colour);
 end;
 
 procedure TSceneSpotLight.UpdateGLSceneObject;
 var
   light: TGLLightSource;
-  vector: TSceneVector;
+  vector: TVectorValue;
   colour: TSceneColour;
 
 begin
   light := _object as TGLLightSource;
 
-  vector := GetParameter<TSceneVector>('position');
+  vector := GetParameter<TVectorValue>('position');
   colour := GetParameter<TSceneColour>('colour');
 
   light.Position.X := vector.X;

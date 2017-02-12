@@ -20,7 +20,9 @@ uses
   helper.build.cleanup.project in 'helper.build.cleanup.project.pas',
   helper.build.scene in 'helper.build.scene.pas',
   scene.cylinder in 'scene.cylinder.pas',
-  scene.cone in 'scene.cone.pas';
+  scene.cone in 'scene.cone.pas',
+  helper.json in 'helper.json.pas',
+  helper.utilities in 'helper.utilities.pas';
 
 {$R *.res}
 
