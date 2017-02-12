@@ -41,6 +41,7 @@ type
   public
     constructor Create(const value: integer);
     function ToString: string; override;
+    procedure Parse(const text: string); override;
     procedure Save(const name: string; obj: TJSONObject); override;
     procedure Load(const name: string; obj: TJSONObject); override;
     property Value: integer read _value write _value;
@@ -52,6 +53,7 @@ type
   public
     constructor Create(const value: single);
     function ToString: string; override;
+    procedure Parse(const text: string); override;
     procedure Save(const name: string; obj: TJSONObject); override;
     procedure Load(const name: string; obj: TJSONObject); override;
     property Value: single read _value write _value;
@@ -63,6 +65,7 @@ type
   public
     constructor Create(const value: string);
     function ToString: string; override;
+    procedure Parse(const text: string); override;
     procedure Save(const name: string; obj: TJSONObject); override;
     procedure Load(const name: string; obj: TJSONObject); override;
     property Value: string read _value write _value;
@@ -155,6 +158,11 @@ begin
   _value := obj.GetValue(name).Value;
 end;
 
+procedure TStringValue.Parse(const text: string);
+begin
+  _value := text;
+end;
+
 procedure TStringValue.Save(const name: string; obj: TJSONObject);
 begin
   obj.AddPair(name, _value);
@@ -177,6 +185,11 @@ begin
   _value := obj.GetValue(name).GetValue<single>;
 end;
 
+procedure TSingleValue.Parse(const text: string);
+begin
+  _value := StrToFloat(text);
+end;
+
 procedure TSingleValue.Save(const name: string; obj: TJSONObject);
 begin
   obj.AddPair(name, _value);
@@ -197,6 +210,11 @@ end;
 procedure TIntegerValue.Load(const name: string; obj: TJSONObject);
 begin
   _value := obj.GetValue(name).GetValue<integer>;
+end;
+
+procedure TIntegerValue.Parse(const text: string);
+begin
+  _value := StrToInt(text);
 end;
 
 procedure TIntegerValue.Save(const name: string; obj: TJSONObject);

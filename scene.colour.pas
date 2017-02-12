@@ -21,7 +21,8 @@ unit scene.colour;
 interface
 
 uses
-  System.SysUtils,
+  System.SysUtils, System.JSON,
+  helper.utilities, helper.JSON,
   scene.parameter;
 
 type
@@ -31,6 +32,9 @@ type
   public
     constructor Create(r, g, b: single);
     function ToString: string; override;
+    procedure Parse(const text: string); override;
+    procedure Load(const name: string; obj: TJSONObject); override;
+    procedure Save(const name: string; obj: TJSONObject); override;
     property Red: single read _red write _red;
     property Green: single read _green write _green;
     property Blue: single read _blue write _blue;
@@ -42,6 +46,9 @@ type
   public
     constructor Create(r, g, b, a: single);
     function ToString: string; override;
+    procedure Parse(const text: string); override;
+    procedure Load(const name: string; obj: TJSONObject); override;
+    procedure Save(const name: string; obj: TJSONObject); override;
     property Red;
     property Green;
     property Blue;
@@ -50,12 +57,43 @@ type
 
 implementation
 
+uses
+  System.Classes;
+
 { TSceneColourAlpha }
 
 constructor TSceneColourAlpha.Create(r, g, b, a: single);
 begin
   inherited Create(r, g, b);
   _alpha := a;
+end;
+
+procedure TSceneColourAlpha.Load(const name: string; obj: TJSONObject);
+var
+  text: string;
+
+begin
+  text := obj.GetValue(name).Value;
+  Parse(text);
+end;
+
+procedure TSceneColourAlpha.Parse(const text: string);
+var
+  tokens: TStringList;
+
+begin
+  tokens := TStringList.Create;
+  Split(text, ',', tokens);
+  _red := StrToFloat(tokens[0]);
+  _green := StrToFloat(tokens[1]);
+  _blue := StrToFloat(tokens[2]);
+  _alpha := StrToFloat(tokens[3]);
+  tokens.Free;
+end;
+
+procedure TSceneColourAlpha.Save(const name: string; obj: TJSONObject);
+begin
+  obj.AddPair(name, ToString);
 end;
 
 function TSceneColourAlpha.ToString: string;
@@ -71,6 +109,33 @@ begin
   _red := r;
   _green := g;
   _blue := b;
+end;
+
+procedure TSceneColour.Load(const name: string; obj: TJSONObject);
+var
+  text: string;
+
+begin
+  text := obj.GetValue(name).Value;
+  Parse(text);
+end;
+
+procedure TSceneColour.Parse(const text: string);
+var
+  tokens: TStringList;
+
+begin
+  tokens := TStringList.Create;
+  Split(text, ',', tokens);
+  _red := StrToFloat(tokens[0]);
+  _green := StrToFloat(tokens[1]);
+  _blue := StrToFloat(tokens[2]);
+  tokens.Free;
+end;
+
+procedure TSceneColour.Save(const name: string; obj: TJSONObject);
+begin
+  obj.AddPair(name, ToString);
 end;
 
 function TSceneColour.ToString: string;

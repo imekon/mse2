@@ -120,6 +120,8 @@ type
     ToolButton14: TToolButton;
     ToolButton15: TToolButton;
     ToolButton16: TToolButton;
+    OpenDialog: TOpenDialog;
+    SaveDialog: TSaveDialog;
     procedure OnFileNew(Sender: TObject);
     procedure OnFileOpen(Sender: TObject);
     procedure OnFileSave(Sender: TObject);
@@ -279,7 +281,11 @@ end;
 
 procedure TMainForm.OnFileOpen(Sender: TObject);
 begin
-  //
+  if OpenDialog.Execute then
+  begin
+    _scene.Load(OpenDialog.FileName);
+    Build;
+  end;
 end;
 
 procedure TMainForm.OnFileSave(Sender: TObject);
@@ -289,7 +295,10 @@ end;
 
 procedure TMainForm.OnFileSaveAs(Sender: TObject);
 begin
-  //
+  if SaveDialog.Execute then
+  begin
+    _scene.Save(SaveDialog.FileName);
+  end;
 end;
 
 procedure TMainForm.OnHelpAbout(Sender: TObject);

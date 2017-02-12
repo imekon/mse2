@@ -453,7 +453,7 @@ object MainForm: TMainForm
     Left = 376
     Top = 264
     Bitmap = {
-      494C01010D0048005C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010D004800600010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000004000000001002000000000000040
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -996,5 +996,18 @@ object MainForm: TMainForm
       FocalLength = 50.000000000000000000
       CameraStyle = csOrtho2D
     end
+  end
+  object OpenDialog: TOpenDialog
+    DefaultExt = '.mse'
+    Filter = 'Model Scene Editor (*.mse)|*.mse'
+    Left = 608
+    Top = 256
+  end
+  object SaveDialog: TSaveDialog
+    DefaultExt = '.mse'
+    Filter = 'Model Scene Editor (*.mse)|*.mse'
+    Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
+    Left = 720
+    Top = 456
   end
 end

@@ -43,7 +43,8 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-    procedure CreateShape(const name: string);
+    function CreateShape(const name: string): TShape;
+    procedure Clear;
     procedure AddShape(shape: TShape);
     procedure RemoveShape(shape: TShape);
     procedure Save(const filename: string);
@@ -68,6 +69,11 @@ begin
   _shapes.Add(shape);
 end;
 
+procedure TScene.Clear;
+begin
+  _shapes.Clear;
+end;
+
 constructor TScene.Create;
 begin
   _counter := 1;
@@ -87,7 +93,7 @@ begin
   RegisterShape('cone', TSceneCone);
 end;
 
-procedure TScene.CreateShape(const name: string);
+function TScene.CreateShape(const name: string): TShape;
 var
   shapeType: TShapeType;
   shape: TShape;
@@ -104,6 +110,8 @@ begin
       _camera := shape as TSceneCamera;
 
     AddShape(shape);
+
+    result := shape;
   end
   else
     raise ESceneBadShape.Create('Failed to create shape: ' + name);
@@ -136,6 +144,8 @@ var
   obj: TJSONObject;
 
 begin
+  Clear;
+
   data := TFile.ReadAllText(filename);
   root := TJSONObject.ParseJSONValue(data, true) as TJSONObject;
   shapesArray := root.Get('shapes').JsonValue as TJSONArray;
@@ -144,7 +154,8 @@ begin
   begin
     obj := shapesArray.Items[i] as TJSONObject;
     t := obj.GetValue('shape').Value;
-
+    shape := CreateShape(t);
+    shape.Load(obj);
   end;
 end;
 
@@ -159,8 +170,27 @@ begin
 end;
 
 procedure TScene.Save(const filename: string);
-begin
+var
+  text: string;
+  root: TJSONObject;
+  shapesArray: TJSONArray;
+  child: TJSONObject;
+  shape: TShape;
 
+begin
+  root := TJSONObject.Create;
+  shapesArray := TJSONArray.Create;
+
+  for shape in _shapes do
+  begin
+    child := TJSONObject.Create;
+    shape.Save(child);
+    shapesArray.Add(child);
+  end;
+
+  root.AddPair('shapes', shapesArray);
+  text := root.ToJSON;
+  TFile.WriteAllText(filename, text);
 end;
 
 end.
