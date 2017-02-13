@@ -87,7 +87,12 @@ begin
   _red := StrToFloat(tokens[0]);
   _green := StrToFloat(tokens[1]);
   _blue := StrToFloat(tokens[2]);
-  _alpha := StrToFloat(tokens[3]);
+
+  if tokens.Count = 4 then
+    _alpha := StrToFloat(tokens[3])
+  else
+    _alpha := 1.0;
+
   tokens.Free;
 end;
 

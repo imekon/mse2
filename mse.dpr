@@ -24,7 +24,8 @@ uses
   helper.json in 'helper.json.pas',
   helper.utilities in 'helper.utilities.pas',
   form.about in 'form.about.pas' {AboutBox},
-  scene.texture.manager in 'scene.texture.manager.pas';
+  scene.texture.manager in 'scene.texture.manager.pas',
+  helper.build.textures in 'helper.build.textures.pas';
 
 {$R *.res}
 

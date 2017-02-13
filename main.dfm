@@ -132,23 +132,30 @@ object MainForm: TMainForm
     Align = alLeft
     BevelOuter = bvNone
     TabOrder = 1
-    object Splitter1: TSplitter
+    object TopSplitter: TSplitter
       Left = 0
-      Top = 280
+      Top = 177
       Width = 233
       Height = 3
       Cursor = crVSplit
       Align = alTop
-      ResizeStyle = rsUpdate
-      ExplicitLeft = 1
-      ExplicitTop = 281
-      ExplicitWidth = 317
+      ExplicitWidth = 207
+    end
+    object BottomSplitter: TSplitter
+      Left = 0
+      Top = 381
+      Width = 233
+      Height = 3
+      Cursor = crVSplit
+      Align = alBottom
+      ExplicitTop = 180
+      ExplicitWidth = 204
     end
     object ProjectTree: TTreeView
       Left = 0
       Top = 0
       Width = 233
-      Height = 280
+      Height = 177
       Align = alTop
       Indent = 19
       TabOrder = 0
@@ -156,10 +163,10 @@ object MainForm: TMainForm
     end
     object ValueListEditor: TValueListEditor
       Left = 0
-      Top = 283
+      Top = 384
       Width = 233
-      Height = 316
-      Align = alClient
+      Height = 215
+      Align = alBottom
       TabOrder = 1
       ColWidths = (
         110
@@ -167,6 +174,25 @@ object MainForm: TMainForm
       RowHeights = (
         18
         18)
+    end
+    object TextureList: TListView
+      Left = 0
+      Top = 180
+      Width = 233
+      Height = 201
+      Align = alClient
+      Columns = <
+        item
+          Caption = 'Name'
+          Width = 110
+        end
+        item
+          Caption = 'Type'
+          Width = 100
+        end>
+      RowSelect = True
+      TabOrder = 2
+      ViewStyle = vsReport
     end
   end
   object StatusBar1: TStatusBar
@@ -467,7 +493,7 @@ object MainForm: TMainForm
     Left = 376
     Top = 264
     Bitmap = {
-      494C01010D004800640010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010D004800680010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000004000000001002000000000000040
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

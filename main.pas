@@ -29,7 +29,7 @@ uses
   Vcl.ValEdit, Vcl.ExtCtrls,
   GLCrossPlatform, GLBaseClasses, GLScene, GLWin32Viewer, GLCoordinates,
   helper.build.project.tree, helper.build.cleanup.project,
-  helper.build.value.editor, helper.build.scene,
+  helper.build.value.editor, helper.build.scene, helper.build.textures,
   scene, scene.texture.manager;
 
 type
@@ -72,7 +72,6 @@ type
     Splitter: TSplitter;
     ProjectTree: TTreeView;
     StatusBar1: TStatusBar;
-    Splitter1: TSplitter;
     ValueListEditor: TValueListEditor;
     SceneViewer: TGLSceneViewer;
     Scene: TGLScene;
@@ -127,6 +126,9 @@ type
     N6: TMenuItem;
     FileImportColoursAction: TAction;
     ImportColoursDialog: TOpenDialog;
+    TextureList: TListView;
+    TopSplitter: TSplitter;
+    BottomSplitter: TSplitter;
     procedure OnFileNew(Sender: TObject);
     procedure OnFileOpen(Sender: TObject);
     procedure OnFileSave(Sender: TObject);
@@ -163,9 +165,11 @@ type
     _projectTreeHelper: THelperBuildProjectTree;
     _valueEditor: TBuildValueEditorHelper;
     _sceneBuilder: THelperBuildScene;
+    _textureBuilder: THelperBuildTextures;
     procedure Build3DScene;
     procedure BuildProjectTree;
     procedure BuildCleanup;
+    procedure BuildTextures;
     procedure Build;
   public
     { Public declarations }
@@ -202,6 +206,11 @@ begin
   _projectTreeHelper.Build(_scene);
 end;
 
+procedure TMainForm.BuildTextures;
+begin
+  _textureBuilder.Build;
+end;
+
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   _textureManager := TSceneTextureManager.Create;
@@ -210,6 +219,7 @@ begin
   _projectCleanup := THelperBuildCleanupProject.Create(_scene);
   _valueEditor := TBuildValueEditorHelper.Create(ValueListEditor);
   _sceneBuilder := THelperBuildScene.Create(Scene, Scene.Objects, Camera, _scene);
+  _textureBuilder := THelperBuildTextures.Create(TextureList, _textureManager);
 
   _scene.View := TSceneView.Front;
   Build3DScene;
@@ -292,7 +302,7 @@ begin
   if ImportColoursDialog.Execute then
   begin
     _textureManager.ImportColours(ImportColoursDialog.FileName);
-
+    BuildTextures;
   end;
 end;
 
