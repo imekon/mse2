@@ -25,11 +25,18 @@ uses
 
 type
   TSceneTexture = class
+  private
+    function GetColour: string;
+    function GetName: string;
+    procedure SetColour(const Value: string);
+    procedure SetName(const Value: string);
   protected
     _parameters: TSceneParameterManager;
   public
     constructor Create; virtual;
     destructor Destroy; override;
+    property Name: string read GetName write SetName;
+    property Colour: string read GetColour write SetColour;
   end;
 
 implementation
@@ -48,6 +55,31 @@ destructor TSceneTexture.Destroy;
 begin
   _parameters.Free;
   inherited;
+end;
+
+function TSceneTexture.GetColour: string;
+begin
+  result := _parameters.GetParameter<TSceneColourAlpha>('colour').ToString;
+end;
+
+function TSceneTexture.GetName: string;
+begin
+  result := _parameters.GetParameter<TStringValue>('name').Value;
+end;
+
+procedure TSceneTexture.SetColour(const Value: string);
+var
+  colour: TSceneColourAlpha;
+
+begin
+  colour := TSceneColourAlpha.Create(0.0, 0.0, 0.0, 1.0);
+  colour.Parse(value);
+  _parameters.SetParameter<TSceneColourAlpha>('colour', colour);
+end;
+
+procedure TSceneTexture.SetName(const Value: string);
+begin
+  _parameters.SetParameter<TStringValue>('name', TStringValue.Create(value));
 end;
 
 end.

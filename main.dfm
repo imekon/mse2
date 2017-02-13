@@ -205,6 +205,15 @@ object MainForm: TMainForm
       object SaveAs1: TMenuItem
         Action = FileSaveAsAction
       end
+      object N5: TMenuItem
+        Caption = '-'
+      end
+      object ImportColours1: TMenuItem
+        Action = FileImportColoursAction
+      end
+      object N6: TMenuItem
+        Caption = '-'
+      end
       object Exit1: TMenuItem
         Action = FileExitAction
       end
@@ -448,12 +457,17 @@ object MainForm: TMainForm
       ImageIndex = 12
       OnExecute = OnCreateCone
     end
+    object FileImportColoursAction: TAction
+      Category = 'File'
+      Caption = 'Import &Colours...'
+      OnExecute = OnFileImportColours
+    end
   end
   object ImageList: TImageList
     Left = 376
     Top = 264
     Bitmap = {
-      494C01010D004800600010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010D004800640010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000004000000001002000000000000040
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1000,6 +1014,7 @@ object MainForm: TMainForm
   object OpenDialog: TOpenDialog
     DefaultExt = '.mse'
     Filter = 'Model Scene Editor (*.mse)|*.mse'
+    Title = 'Open Model Scene Editor project'
     Left = 608
     Top = 256
   end
@@ -1007,7 +1022,15 @@ object MainForm: TMainForm
     DefaultExt = '.mse'
     Filter = 'Model Scene Editor (*.mse)|*.mse'
     Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
+    Title = 'Save Model Scene Editor project'
     Left = 720
     Top = 456
+  end
+  object ImportColoursDialog: TOpenDialog
+    DefaultExt = '.txt'
+    Filter = 'Colours (*.txt)|*.txt'
+    Title = 'Import Colours'
+    Left = 504
+    Top = 352
   end
 end

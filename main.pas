@@ -25,12 +25,12 @@ uses
   System.Classes,
   Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, System.ImageList,
-  Vcl.ImgList, Vcl.ToolWin, System.Actions, Vcl.ActnList, Vcl.Menus,
-  GLCrossPlatform, GLBaseClasses, GLScene, GLWin32Viewer, Vcl.Grids,
+  Vcl.ImgList, Vcl.ToolWin, System.Actions, Vcl.ActnList, Vcl.Menus, Vcl.Grids,
   Vcl.ValEdit, Vcl.ExtCtrls,
+  GLCrossPlatform, GLBaseClasses, GLScene, GLWin32Viewer, GLCoordinates,
   helper.build.project.tree, helper.build.cleanup.project,
   helper.build.value.editor, helper.build.scene,
-  scene, GLCoordinates;
+  scene, scene.texture.manager;
 
 type
   TMainForm = class(TForm)
@@ -122,6 +122,11 @@ type
     ToolButton16: TToolButton;
     OpenDialog: TOpenDialog;
     SaveDialog: TSaveDialog;
+    N5: TMenuItem;
+    ImportColours1: TMenuItem;
+    N6: TMenuItem;
+    FileImportColoursAction: TAction;
+    ImportColoursDialog: TOpenDialog;
     procedure OnFileNew(Sender: TObject);
     procedure OnFileOpen(Sender: TObject);
     procedure OnFileSave(Sender: TObject);
@@ -149,8 +154,10 @@ type
     procedure OnViewBottom(Sender: TObject);
     procedure OnCreateCylinder(Sender: TObject);
     procedure OnCreateCone(Sender: TObject);
+    procedure OnFileImportColours(Sender: TObject);
   private
     { Private declarations }
+    _textureManager: TSceneTextureManager;
     _scene: TScene;
     _projectCleanup: THelperBuildCleanupProject;
     _projectTreeHelper: THelperBuildProjectTree;
@@ -197,6 +204,7 @@ end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
+  _textureManager := TSceneTextureManager.Create;
   _scene := TScene.Create;
   _projectTreeHelper := THelperBuildProjectTree.Create(ProjectTree);
   _projectCleanup := THelperBuildCleanupProject.Create(_scene);
@@ -209,7 +217,12 @@ end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
 begin
+  _sceneBuilder.Free;
+  _valueEditor.Free;
+  _projectCleanup.Free;
+  _projectTreeHelper.Free;
   _scene.Free;
+  _textureManager.Free;
 end;
 
 procedure TMainForm.OnCreateCamera(Sender: TObject);
@@ -272,6 +285,15 @@ end;
 procedure TMainForm.OnFileExit(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TMainForm.OnFileImportColours(Sender: TObject);
+begin
+  if ImportColoursDialog.Execute then
+  begin
+    _textureManager.ImportColours(ImportColoursDialog.FileName);
+
+  end;
 end;
 
 procedure TMainForm.OnFileNew(Sender: TObject);
