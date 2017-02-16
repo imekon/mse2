@@ -21,6 +21,8 @@ unit scene.texture;
 interface
 
 uses
+  System.JSON,
+  helper.JSON,
   scene.parameter, scene.parameter.manager, scene.colour;
 
 type
@@ -35,6 +37,8 @@ type
   public
     constructor Create; virtual;
     destructor Destroy; override;
+    procedure Load(obj: TJSONObject); virtual;
+    procedure Save(obj: TJSONObject); virtual;
     property Name: string read GetName write SetName;
     property Colour: string read GetColour write SetColour;
   end;
@@ -65,6 +69,16 @@ end;
 function TSceneTexture.GetName: string;
 begin
   result := _parameters.GetParameter<TStringValue>('name').Value;
+end;
+
+procedure TSceneTexture.Load(obj: TJSONObject);
+begin
+  _parameters.Save(obj);
+end;
+
+procedure TSceneTexture.Save(obj: TJSONObject);
+begin
+  _parameters.Load(obj);
 end;
 
 procedure TSceneTexture.SetColour(const Value: string);
