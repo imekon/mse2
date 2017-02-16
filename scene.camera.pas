@@ -48,8 +48,8 @@ end;
 constructor TSceneCamera.Create;
 begin
   inherited;
-  _parameterManager.AddParameter<TVectorValue>('position', TVectorValue.Create(0.0, 0.0, 5.0), TSceneParameterGroup.Camera);
-  _parameterManager.AddParameter<TVectorValue>('lookat', TVectorValue.Create(0.0, 0.0, 0.0), TSceneParameterGroup.Camera);
+  _parameterManager.AddParameter<TVectorValue>('position', TVectorValue.Create(0.0, 0.0, 5.0), TSceneParameterGroup.Camera, false);
+  _parameterManager.AddParameter<TVectorValue>('lookat', TVectorValue.Create(0.0, 0.0, 0.0), TSceneParameterGroup.Camera, false);
 end;
 
 procedure TSceneCamera.Load(obj: TJSONObject);

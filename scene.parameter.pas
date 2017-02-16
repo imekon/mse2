@@ -27,6 +27,7 @@ type
   TSceneParameterGroup = (Basic, Camera, Transform, Details, Colour, Texture);
 
   TSceneValue = class
+  private
   public
     constructor Create;
     function ToString: string; override;
@@ -75,11 +76,13 @@ type
   protected
     _name: string;
     _group: TSceneParameterGroup;
+    _hide: boolean;
   public
-    constructor Create(const name: string; group: TSceneParameterGroup); virtual;
+    constructor Create(const name: string; group: TSceneParameterGroup; hide: boolean); virtual;
     procedure Save(obj: TJSONObject); virtual; abstract;
     procedure Load(obj: TJSONObject); virtual; abstract;
     property Name: string read _name;
+    property HideInEditor: boolean read _hide;
   end;
 
   TSceneParameter<TType: TSceneValue> = class(TSceneParameter)
@@ -87,7 +90,7 @@ type
     _value: TType;
     procedure SetValue(const Value: TType);
   public
-    constructor Create(const name: string; group: TSceneParameterGroup); override;
+    constructor Create(const name: string; group: TSceneParameterGroup; hide: boolean); override;
     function ToString: string; override;
     procedure Save(obj: TJSONObject); override;
     procedure Load(obj: TJSONObject); override;
@@ -98,9 +101,9 @@ implementation
 
 { TSceneParameter<TType> }
 
-constructor TSceneParameter<TType>.Create(const name: string; group: TSceneParameterGroup);
+constructor TSceneParameter<TType>.Create(const name: string; group: TSceneParameterGroup; hide: boolean);
 begin
-  inherited Create(name, group);
+  inherited Create(name, group, hide);
 end;
 
 procedure TSceneParameter<TType>.Load(obj: TJSONObject);
@@ -128,10 +131,11 @@ end;
 
 { TSceneParameter }
 
-constructor TSceneParameter.Create(const name: string; group: TSceneParameterGroup);
+constructor TSceneParameter.Create(const name: string; group: TSceneParameterGroup; hide: boolean);
 begin
   _name := name;
   _group := group;
+  _hide := hide;
 end;
 
 { TSceneValue }

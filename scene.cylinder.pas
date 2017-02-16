@@ -56,7 +56,7 @@ begin
   AddStandardParameters;
   _parameterManager.AddParameter<TSingleValue>('radius',
     TSingleValue.Create(0.5),
-    TSceneParameterGroup.Details);
+    TSceneParameterGroup.Details, false);
 end;
 
 procedure TSceneCylinder.Load(obj: TJSONObject);

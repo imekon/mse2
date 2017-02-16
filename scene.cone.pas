@@ -57,10 +57,10 @@ begin
   AddStandardParameters;
   _parameterManager.AddParameter<TSingleValue>('top',
     TSingleValue.Create(0.0),
-    TSceneParameterGroup.Details);
+    TSceneParameterGroup.Details, false);
   _parameterManager.AddParameter<TSingleValue>('bottom',
     TSingleValue.Create(0.5),
-    TSceneParameterGroup.Details);
+    TSceneParameterGroup.Details, false);
 end;
 
 procedure TSceneCone.Load(obj: TJSONObject);

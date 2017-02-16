@@ -28,8 +28,10 @@ type
   TSceneTextureManager = class
   private
     _textures: TObjectList<TSceneTexture>;
+    _registration: TDictionary<string, TSceneTextureType>;
     function GetTexture(index: integer): TSceneTexture;
     function GetTextureCount: integer;
+    procedure RegisterTexture(const name: string; textureType: TSceneTextureType);
   public
     constructor Create;
     destructor Destroy; override;
@@ -52,16 +54,24 @@ uses
 constructor TSceneTextureManager.Create;
 begin
   _textures := TObjectList<TSceneTexture>.Create;
+  _registration := TDictionary<string, TSceneTextureType>.Create;
+
+  RegisterTexture('colour', TSceneTexture);
 end;
 
 function TSceneTextureManager.CreateTexture(const name: string): TSceneTexture;
+var
+  textureType: TSceneTextureType;
+
 begin
-  result := nil;
+  textureType := _registration[name];
+  result := textureType.Create;
 end;
 
 destructor TSceneTextureManager.Destroy;
 begin
   _textures.Free;
+  _registration.Free;
   inherited;
 end;
 
@@ -90,7 +100,7 @@ begin
   begin
     ReadLn(input, line);
     Split(line, ' ', tokens);
-    texture := TSceneTexture.Create;
+    texture := CreateTexture('colour');
     texture.Name := tokens[0];
     texture.Colour := tokens[1] + ', ' + tokens[2] + ', ' + tokens[3];
     _textures.Add(texture);
@@ -119,7 +129,15 @@ begin
     t := obj.GetValue('texture').Value;
     texture := CreateTexture(t);
     texture.Load(obj);
+    _textures.Add(texture);
   end;
+  root.Free;
+end;
+
+procedure TSceneTextureManager.RegisterTexture(const name: string;
+  textureType: TSceneTextureType);
+begin
+  _registration.Add(name, textureType);
 end;
 
 procedure TSceneTextureManager.Save(const filename: string);
@@ -141,6 +159,7 @@ begin
   root.AddPair('textures', texturesArray);
   data := root.ToJSON;
   TFile.WriteAllText(filename, data);
+  root.Free;
 end;
 
 end.

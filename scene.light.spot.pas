@@ -52,8 +52,8 @@ end;
 constructor TSceneSpotLight.Create;
 begin
   inherited;
-  _parameterManager.AddParameter<TVectorValue>('position', TVectorValue.Create(2.0, 2.0, 2.0), TSceneParameterGroup.Transform);
-  _parameterManager.AddParameter<TSceneColour>('colour', TSceneColour.Create(1.0, 1.0, 1.0), TSceneParameterGroup.Colour);
+  _parameterManager.AddParameter<TVectorValue>('position', TVectorValue.Create(2.0, 2.0, 2.0), TSceneParameterGroup.Transform, false);
+  _parameterManager.AddParameter<TSceneColour>('colour', TSceneColour.Create(1.0, 1.0, 1.0), TSceneParameterGroup.Colour, false);
 end;
 
 procedure TSceneSpotLight.Load(obj: TJSONObject);

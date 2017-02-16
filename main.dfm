@@ -237,6 +237,12 @@ object MainForm: TMainForm
       object ImportColours1: TMenuItem
         Action = FileImportColoursAction
       end
+      object LoadTextures1: TMenuItem
+        Action = LoadTexturesAction
+      end
+      object SaveTextures1: TMenuItem
+        Action = SaveTexturesAction
+      end
       object N6: TMenuItem
         Caption = '-'
       end
@@ -488,12 +494,22 @@ object MainForm: TMainForm
       Caption = 'Import &Colours...'
       OnExecute = OnFileImportColours
     end
+    object LoadTexturesAction: TAction
+      Category = 'File'
+      Caption = 'Load Textures...'
+      OnExecute = OnLoadTextures
+    end
+    object SaveTexturesAction: TAction
+      Category = 'File'
+      Caption = 'Save Textures...'
+      OnExecute = OnSaveTextures
+    end
   end
   object ImageList: TImageList
     Left = 376
     Top = 264
     Bitmap = {
-      494C01010D004800680010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010D0048006C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000004000000001002000000000000040
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1058,5 +1074,17 @@ object MainForm: TMainForm
     Title = 'Import Colours'
     Left = 504
     Top = 352
+  end
+  object LoadTexturesDialog: TOpenDialog
+    DefaultExt = '.mst'
+    Filter = 'Model Scene Editor Textures (*.mst)|*.mst'
+    Left = 472
+    Top = 216
+  end
+  object SaveTexturesDialog: TSaveDialog
+    DefaultExt = '.mst'
+    Filter = 'Model Scene Editor Textures (*.mst)|*.mst'
+    Left = 616
+    Top = 336
   end
 end

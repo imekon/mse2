@@ -34,7 +34,8 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-    procedure AddParameter<TType: TSceneValue>(const name: string; value: TType; group: TSceneParameterGroup);
+    procedure AddParameter<TType: TSceneValue>(const name: string; value: TType;
+      group: TSceneParameterGroup; hide: boolean);
     function GetParameter<TType: TSceneValue>(const name: string): TType;
     procedure SetParameter<TType: TSceneValue>(const name: string; const value: TType);
     procedure Save(obj: TJSONObject);
@@ -49,12 +50,12 @@ implementation
 { TSceneParameterManager }
 
 procedure TSceneParameterManager.AddParameter<TType>(const name: string;
-  value: TType; group: TSceneParameterGroup);
+  value: TType; group: TSceneParameterGroup; hide: boolean);
 var
   parameter: TSceneParameter<TType>;
 
 begin
-  parameter := TSceneParameter<TType>.Create(name, group);
+  parameter := TSceneParameter<TType>.Create(name, group, hide);
   parameter.Value := value;
   _parameters.Add(parameter);
 end;

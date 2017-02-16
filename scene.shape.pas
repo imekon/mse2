@@ -76,14 +76,14 @@ procedure TShape.AddStandardParameters;
 begin
   _parameterManager.AddParameter<TVectorValue>('translate',
     TVectorValue.Create(0.0, 0.0, 0.0),
-    TSceneParameterGroup.Transform);
+    TSceneParameterGroup.Transform, false);
   _parameterManager.AddParameter<TVectorValue>('scale',
-    TVectorValue.Create(1.0, 1.0, 1.0), TSceneParameterGroup.Transform);
+    TVectorValue.Create(1.0, 1.0, 1.0), TSceneParameterGroup.Transform, false);
   _parameterManager.AddParameter<TVectorValue>('rotate',
     TVectorValue.Create(0.0, 0.0, 0.0),
-    TSceneParameterGroup.Transform);
+    TSceneParameterGroup.Transform, false);
   _parameterManager.AddParameter<TStringValue>('texture',
-    TStringValue.Create('unknown'), TSceneParameterGroup.Texture);
+    TStringValue.Create('unknown'), TSceneParameterGroup.Texture, true);
 end;
 
 constructor TShape.Create;
@@ -91,7 +91,7 @@ begin
   _status := [TShapeState.Add];
   _parameterManager := TSceneParameterManager.Create;
   _parameterManager.AddParameter<TStringValue>('name',
-    TStringValue.Create('untitled'), TSceneParameterGroup.Basic);
+    TStringValue.Create('untitled'), TSceneParameterGroup.Basic, false);
   _treeNode := nil;
   _object := nil;
 end;

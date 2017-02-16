@@ -129,6 +129,12 @@ type
     TextureList: TListView;
     TopSplitter: TSplitter;
     BottomSplitter: TSplitter;
+    LoadTextures1: TMenuItem;
+    SaveTextures1: TMenuItem;
+    LoadTexturesAction: TAction;
+    SaveTexturesAction: TAction;
+    LoadTexturesDialog: TOpenDialog;
+    SaveTexturesDialog: TSaveDialog;
     procedure OnFileNew(Sender: TObject);
     procedure OnFileOpen(Sender: TObject);
     procedure OnFileSave(Sender: TObject);
@@ -157,6 +163,8 @@ type
     procedure OnCreateCylinder(Sender: TObject);
     procedure OnCreateCone(Sender: TObject);
     procedure OnFileImportColours(Sender: TObject);
+    procedure OnLoadTextures(Sender: TObject);
+    procedure OnSaveTextures(Sender: TObject);
   private
     { Private declarations }
     _textureManager: TSceneTextureManager;
@@ -346,6 +354,15 @@ begin
   end;
 end;
 
+procedure TMainForm.OnLoadTextures(Sender: TObject);
+begin
+  if LoadTexturesDialog.Execute then
+  begin
+    _textureManager.Load(LoadTexturesDialog.FileName);
+    BuildTextures;
+  end;
+end;
+
 procedure TMainForm.OnProjectTreeChange(Sender: TObject; Node: TTreeNode);
 var
   shape: TShape;
@@ -354,6 +371,12 @@ begin
   shape := Node.Data;
   if assigned(shape) then
     _valueEditor.Build(shape.ParameterManager);
+end;
+
+procedure TMainForm.OnSaveTextures(Sender: TObject);
+begin
+  if SaveTexturesDialog.Execute then
+    _textureManager.Save(SaveTexturesDialog.FileName);
 end;
 
 procedure TMainForm.OnUpdateViewCamera(Sender: TObject);

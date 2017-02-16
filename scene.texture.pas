@@ -43,6 +43,8 @@ type
     property Colour: string read GetColour write SetColour;
   end;
 
+  TSceneTextureType = class of TSceneTexture;
+
 implementation
 
 { TSceneTexture }
@@ -51,8 +53,8 @@ constructor TSceneTexture.Create;
 begin
   _parameters := TSceneParameterManager.Create;
 
-  _parameters.AddParameter<TStringValue>('name', TStringValue.Create('untitled'), TSceneParameterGroup.Basic);
-  _parameters.AddParameter<TSceneColourAlpha>('colour', TSceneColourAlpha.Create(1.0, 0.0, 0.0, 1.0), TSceneParameterGroup.Colour);
+  _parameters.AddParameter<TStringValue>('name', TStringValue.Create('untitled'), TSceneParameterGroup.Basic, false);
+  _parameters.AddParameter<TSceneColourAlpha>('colour', TSceneColourAlpha.Create(1.0, 0.0, 0.0, 1.0), TSceneParameterGroup.Colour, false);
 end;
 
 destructor TSceneTexture.Destroy;
@@ -73,12 +75,13 @@ end;
 
 procedure TSceneTexture.Load(obj: TJSONObject);
 begin
-  _parameters.Save(obj);
+  _parameters.Load(obj);
 end;
 
 procedure TSceneTexture.Save(obj: TJSONObject);
 begin
-  _parameters.Load(obj);
+  obj.AddPair('texture', 'colour');
+  _parameters.Save(obj);
 end;
 
 procedure TSceneTexture.SetColour(const Value: string);

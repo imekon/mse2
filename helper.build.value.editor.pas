@@ -47,7 +47,8 @@ begin
   for i := 0 to parameters.ParameterCount - 1 do
   begin
     parameter := parameters.Parameter[i];
-    _editor.InsertRow(parameter.Name, parameter.ToString, true);
+    if not parameter.HideInEditor then
+      _editor.InsertRow(parameter.Name, parameter.ToString, true);
   end;
 end;
 
