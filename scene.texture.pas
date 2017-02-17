@@ -55,6 +55,17 @@ begin
 
   _parameters.AddParameter<TStringValue>('name', TStringValue.Create('untitled'), TSceneParameterGroup.Basic, false);
   _parameters.AddParameter<TSceneColourAlpha>('colour', TSceneColourAlpha.Create(1.0, 0.0, 0.0, 1.0), TSceneParameterGroup.Colour, false);
+  _parameters.AddParameter<TSingleValue>('diffuse', TSingleValue.Create(0.7), TSceneParameterGroup.Texture, false);
+  _parameters.AddParameter<TSingleValue>('brilliance', TSingleValue.Create(1.0), TSceneParameterGroup.Texture, false);
+  _parameters.AddParameter<TSingleValue>('crand', TSingleValue.Create(0.0), TSceneParameterGroup.Texture, false);
+  _parameters.AddParameter<TSingleValue>('ambient', TSingleValue.Create(0.1), TSceneParameterGroup.Texture, false);
+  _parameters.AddParameter<TSingleValue>('reflection', TSingleValue.Create(0.0), TSceneParameterGroup.Texture, false);
+  _parameters.AddParameter<TSingleValue>('phong', TSingleValue.Create(0.0), TSceneParameterGroup.Texture, false);
+  _parameters.AddParameter<TSingleValue>('phongsize', TSingleValue.Create(0.0), TSceneParameterGroup.Texture, false);
+  _parameters.AddParameter<TSingleValue>('specular', TSingleValue.Create(0.0), TSceneParameterGroup.Texture, false);
+  _parameters.AddParameter<TSingleValue>('roughness', TSingleValue.Create(0.05), TSceneParameterGroup.Texture, false);
+  _parameters.AddParameter<TSingleValue>('refraction', TSingleValue.Create(0.0), TSceneParameterGroup.Texture, false);
+  _parameters.AddParameter<TSingleValue>('ior', TSingleValue.Create(0.0), TSceneParameterGroup.Texture, false);
 end;
 
 destructor TSceneTexture.Destroy;

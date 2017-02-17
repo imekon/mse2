@@ -1106,8 +1106,8 @@ object AboutBox: TAboutBox
     object Comments: TLabel
       Left = 176
       Top = 95
-      Width = 209
-      Height = 22
+      Width = 200
+      Height = 13
       Caption = 'A 3D editor for creating scenes for POVray'
       WordWrap = True
       IsControl = True

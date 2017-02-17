@@ -22,15 +22,15 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes,
+  System.Classes, System.IOUtils,
   Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, System.ImageList,
   Vcl.ImgList, Vcl.ToolWin, System.Actions, Vcl.ActnList, Vcl.Menus, Vcl.Grids,
   Vcl.ValEdit, Vcl.ExtCtrls,
   GLCrossPlatform, GLBaseClasses, GLScene, GLWin32Viewer, GLCoordinates,
-  helper.build.project.tree, helper.build.cleanup.project,
+  helper.build.project.tree, helper.build.cleanup.project, helper.configuration,
   helper.build.value.editor, helper.build.scene, helper.build.textures,
-  scene, scene.texture.manager;
+  scene, scene.texture.manager, scene.template.manager;
 
 type
   TMainForm = class(TForm)
@@ -135,6 +135,11 @@ type
     SaveTexturesAction: TAction;
     LoadTexturesDialog: TOpenDialog;
     SaveTexturesDialog: TSaveDialog;
+    N7: TMenuItem;
+    Export1: TMenuItem;
+    N8: TMenuItem;
+    FileExportAction: TAction;
+    ExportDialog: TSaveDialog;
     procedure OnFileNew(Sender: TObject);
     procedure OnFileOpen(Sender: TObject);
     procedure OnFileSave(Sender: TObject);
@@ -165,8 +170,11 @@ type
     procedure OnFileImportColours(Sender: TObject);
     procedure OnLoadTextures(Sender: TObject);
     procedure OnSaveTextures(Sender: TObject);
+    procedure OnFileExport(Sender: TObject);
   private
     { Private declarations }
+    _configuration: THelperConfiguration;
+    _sceneTemplateManager: TSceneTemplateManager;
     _textureManager: TSceneTextureManager;
     _scene: TScene;
     _projectCleanup: THelperBuildCleanupProject;
@@ -220,8 +228,15 @@ begin
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
+var
+  textureFilename: string;
+
 begin
+  _configuration := THelperConfiguration.Create;
+  _sceneTemplateManager := TSceneTemplateManager.Create(_configuration.Path);
   _textureManager := TSceneTextureManager.Create;
+  textureFilename := TPath.Combine(_configuration.Path, 'textures\textures.mst');
+  _textureManager.Load(textureFilename);
   _scene := TScene.Create;
   _projectTreeHelper := THelperBuildProjectTree.Create(ProjectTree);
   _projectCleanup := THelperBuildCleanupProject.Create(_scene);
@@ -230,11 +245,15 @@ begin
   _textureBuilder := THelperBuildTextures.Create(TextureList, _textureManager);
 
   _scene.View := TSceneView.Front;
+
   Build3DScene;
+  BuildTextures;
 end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
 begin
+  _configuration.Free;
+  _sceneTemplateManager.Free;
   _sceneBuilder.Free;
   _valueEditor.Free;
   _projectCleanup.Free;
@@ -303,6 +322,12 @@ end;
 procedure TMainForm.OnFileExit(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TMainForm.OnFileExport(Sender: TObject);
+begin
+  if ExportDialog.Execute then
+    _scene.GenerateScene(_configuration.Path, 'povray', ExportDialog.FileName);
 end;
 
 procedure TMainForm.OnFileImportColours(Sender: TObject);

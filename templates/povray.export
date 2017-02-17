@@ -1,0 +1,38 @@
+$[name]
+POVray
+$[description]
+POVray export
+$[camera]
+camera
+{
+    location <${location}>
+    look_at <$(lookat)>
+}
+$[spotlight]
+spotlight
+    point_at <${position}>
+    radius ${radius}
+    falloff ${falloff}
+    tightness ${tightness}
+$[object]
+    texture { ${texture} }
+    scale <${scale}>
+    rotate <0, 0, ${-rotate.z}>
+    rotate <0, ${-rotate.y}, 0>
+    rotate <${-rotate.x}, 0, 0>
+    translate <${translate}>
+    ${ifnot(shadow) no_shadow}
+    ${if(hollow) hollow}
+$[sphere]
+sphere
+{
+    <0, 0, 0>, ${radius}
+    ${object}
+}
+$[cube]
+box
+{
+    <-1,-1,-1>
+    <1,1,1> 
+    ${object}
+}

@@ -25,7 +25,10 @@ uses
   helper.utilities in 'helper.utilities.pas',
   form.about in 'form.about.pas' {AboutBox},
   scene.texture.manager in 'scene.texture.manager.pas',
-  helper.build.textures in 'helper.build.textures.pas';
+  helper.build.textures in 'helper.build.textures.pas',
+  scene.template in 'scene.template.pas',
+  helper.configuration in 'helper.configuration.pas',
+  scene.template.manager in 'scene.template.manager.pas';
 
 {$R *.res}
 

@@ -231,11 +231,20 @@ object MainForm: TMainForm
       object SaveAs1: TMenuItem
         Action = FileSaveAsAction
       end
+      object N8: TMenuItem
+        Caption = '-'
+      end
+      object Export1: TMenuItem
+        Action = FileExportAction
+      end
       object N5: TMenuItem
         Caption = '-'
       end
       object ImportColours1: TMenuItem
         Action = FileImportColoursAction
+      end
+      object N7: TMenuItem
+        Caption = '-'
       end
       object LoadTextures1: TMenuItem
         Action = LoadTexturesAction
@@ -504,12 +513,17 @@ object MainForm: TMainForm
       Caption = 'Save Textures...'
       OnExecute = OnSaveTextures
     end
+    object FileExportAction: TAction
+      Category = 'File'
+      Caption = 'Export...'
+      OnExecute = OnFileExport
+    end
   end
   object ImageList: TImageList
     Left = 376
     Top = 264
     Bitmap = {
-      494C01010D0048006C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010D004800740010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000004000000001002000000000000040
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1086,5 +1100,12 @@ object MainForm: TMainForm
     Filter = 'Model Scene Editor Textures (*.mst)|*.mst'
     Left = 616
     Top = 336
+  end
+  object ExportDialog: TSaveDialog
+    DefaultExt = '.pov'
+    Filter = 'POVray (*.pov)|*.pov'
+    Title = 'Export scene'
+    Left = 696
+    Top = 176
   end
 end

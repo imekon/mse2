@@ -49,6 +49,7 @@ type
     procedure RemoveShape(shape: TShape);
     procedure Save(const filename: string);
     procedure Load(const filename: string);
+    procedure GenerateScene(const path, name, filename: string);
 
     property Camera: TSceneCamera read _camera;
     property View: TSceneView read _view write _view;
@@ -62,7 +63,7 @@ implementation
 
 uses
   scene.light.spot, scene.plane, scene.cube, scene.sphere, scene.cylinder,
-  scene.cone;
+  scene.cone, scene.template;
 
 procedure TScene.AddShape(shape: TShape);
 begin
@@ -122,6 +123,18 @@ begin
   _registration.Free;
   _shapes.Free;
   inherited;
+end;
+
+procedure TScene.GenerateScene(const path, name, filename: string);
+var
+  templateFilename: string;
+  sceneTemplate: TSceneTemplate;
+
+begin
+  sceneTemplate := TSceneTemplate.Create;
+  templateFilename := TPath.Combine(path, 'templates\povray.export');
+  sceneTemplate.Load(templateFilename);
+  sceneTemplate.Free;
 end;
 
 function TScene.GetShape(index: integer): TShape;
