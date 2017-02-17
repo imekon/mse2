@@ -36,3 +36,9 @@ box
     <1,1,1> 
     ${object}
 }
+$[plane]
+plane
+{
+    -z, 0
+    ${object}
+}
