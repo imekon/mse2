@@ -28,7 +28,8 @@ uses
   helper.build.textures in 'helper.build.textures.pas',
   scene.template in 'scene.template.pas',
   helper.configuration in 'helper.configuration.pas',
-  scene.template.manager in 'scene.template.manager.pas';
+  scene.template.manager in 'scene.template.manager.pas',
+  helper.strings in 'helper.strings.pas';
 
 {$R *.res}
 

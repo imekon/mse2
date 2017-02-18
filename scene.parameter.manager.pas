@@ -21,7 +21,7 @@ unit scene.parameter.manager;
 interface
 
 uses
-  System.JSON, System.Generics.Collections,
+  System.StrUtils, System.JSON, System.Generics.Collections,
   scene.parameter;
 
 type

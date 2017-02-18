@@ -66,7 +66,7 @@ implementation
 
 uses
   scene.light.spot, scene.plane, scene.cube, scene.sphere, scene.cylinder,
-  scene.cone;
+  scene.cone, helper.strings;
 
 procedure TScene.AddShape(shape: TShape);
 begin
@@ -158,7 +158,7 @@ begin
     section := template.FindSection(shape.GetType);
     if assigned(section) then
     begin
-      format := section.Data;
+      format := StringReplace(section.Data, '${object}', obj.Data, []);
       text := ProcessFormat(format, shape);
       data.AppendLine(text);
     end;
@@ -207,6 +207,7 @@ var
   escape: boolean;
   i: integer;
   ch, chNext: char;
+  parameter, paramName, arg: string;
   data, token: TStringBuilder;
 
 begin
@@ -230,7 +231,16 @@ begin
 
       if ch = '}' then
       begin
-        data.Append(shape.FindParameter(token.ToString));
+        parameter := token.ToString;
+
+        if THelperStrings.IsSubParameter(parameter) then
+        begin
+          THelperStrings.SplitSubParameter(parameter, paramName, arg);
+          // process vector.X
+        end
+        else
+          data.Append(shape.FindParameter(parameter));
+
         escape := false;
       end;
     end

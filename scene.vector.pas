@@ -23,18 +23,21 @@ interface
 uses
   System.SysUtils, System.JSON,
   helper.json,
-  scene.parameter;
+  scene.parameter, helper.strings;
 
 type
   TVectorValue = class(TSceneValue)
   private
     _x, _y, _z: single;
+  protected
+    function GetHasSubParameter: boolean; override;
   public
     constructor Create(x, y, z: single);
     function ToString: string; override;
     procedure Save(const name: string; obj: TJSONObject); override;
     procedure Load(const name: string; obj: TJSONObject); override;
     procedure Parse(const text: string); override;
+    function GetSubParameter(const name: string): string; override;
 
     property X: single read _x write _x;
     property Y: single read _y write _y;
@@ -53,6 +56,29 @@ begin
   _x := x;
   _y := y;
   _z := z;
+end;
+
+function TVectorValue.GetHasSubParameter: boolean;
+begin
+  result := true;
+end;
+
+function TVectorValue.GetSubParameter(const name: string): string;
+var
+  subName, field: string;
+
+begin
+  result := '';
+
+  THelperStrings.SplitSubParameter(name, subName, field);
+
+  field := field.ToUpper;
+  if field = 'X' then
+    result := FloatToStr(_x)
+  else if field = 'Y' then
+    result := FloatToStr(_y)
+  else if field = 'Z' then
+    result := FloatToStr(_z);
 end;
 
 procedure TVectorValue.Load(const name: string; obj: TJSONObject);

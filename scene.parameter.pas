@@ -27,13 +27,16 @@ type
   TSceneParameterGroup = (Basic, Camera, Transform, Details, Colour, Texture);
 
   TSceneValue = class
-  private
+  protected
+    function GetHasSubParameter: boolean; virtual;
   public
     constructor Create;
     function ToString: string; override;
     procedure Parse(const text: string); virtual; abstract;
     procedure Save(const name: string; obj: TJSONObject); virtual; abstract;
     procedure Load(const name: string; obj: TJSONObject); virtual; abstract;
+    function GetSubParameter(const name: string): string; virtual;
+    property HasSubParameter: boolean read GetHasSubParameter;
   end;
 
   TIntegerValue = class(TSceneValue)
@@ -143,6 +146,16 @@ end;
 constructor TSceneValue.Create;
 begin
 
+end;
+
+function TSceneValue.GetHasSubParameter: boolean;
+begin
+  result := false;
+end;
+
+function TSceneValue.GetSubParameter(const name: string): string;
+begin
+  result := '';
 end;
 
 function TSceneValue.ToString: string;
