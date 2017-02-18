@@ -30,6 +30,7 @@ type
   TSceneCylinder = class(TShape)
   public
     constructor Create; override;
+    function GetType: string; override;
     procedure Load(obj: TJSONObject); override;
     procedure Save(obj: TJSONObject); override;
     function BuildGLSceneObject(owner: TGLBaseSceneObject): TGLBaseSceneObject; override;
@@ -57,6 +58,11 @@ begin
   _parameterManager.AddParameter<TSingleValue>('radius',
     TSingleValue.Create(0.5),
     TSceneParameterGroup.Details, false);
+end;
+
+function TSceneCylinder.GetType: string;
+begin
+  result := 'cylinder';
 end;
 
 procedure TSceneCylinder.Load(obj: TJSONObject);

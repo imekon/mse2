@@ -30,6 +30,7 @@ type
   TSceneCube = class(TShape)
   public
     constructor Create; override;
+    function GetType: string; override;
     procedure Load(obj: TJSONObject); override;
     procedure Save(obj: TJSONObject); override;
     function BuildGLSceneObject(owner: TGLBaseSceneObject): TGLBaseSceneObject; override;
@@ -53,6 +54,11 @@ constructor TSceneCube.Create;
 begin
   inherited;
   AddStandardParameters;
+end;
+
+function TSceneCube.GetType: string;
+begin
+  result := 'cube';
 end;
 
 procedure TSceneCube.Load(obj: TJSONObject);

@@ -22,7 +22,7 @@ interface
 
 uses
   System.IOUtils, System.SysUtils, System.JSON, System.Generics.Collections,
-  scene.shape, scene.camera;
+  scene.shape, scene.camera, scene.template.manager, scene.template;
 
 type
   ESceneBadShape = class(Exception)
@@ -40,6 +40,8 @@ type
     procedure RegisterShape(const name: string; shapeType: TShapeType);
     function GetShape(index: integer): TShape;
     function GetShapeCount: integer;
+    function GenerateShapes(template: TSceneTemplate): string;
+    function ProcessFormat(format: string; shape: TShape): string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -49,7 +51,8 @@ type
     procedure RemoveShape(shape: TShape);
     procedure Save(const filename: string);
     procedure Load(const filename: string);
-    procedure GenerateScene(const path, name, filename: string);
+    procedure GenerateScene(sceneTemplateManager: TSceneTemplateManager;
+      const name, filename: string);
 
     property Camera: TSceneCamera read _camera;
     property View: TSceneView read _view write _view;
@@ -63,7 +66,7 @@ implementation
 
 uses
   scene.light.spot, scene.plane, scene.cube, scene.sphere, scene.cylinder,
-  scene.cone, scene.template;
+  scene.cone;
 
 procedure TScene.AddShape(shape: TShape);
 begin
@@ -125,16 +128,43 @@ begin
   inherited;
 end;
 
-procedure TScene.GenerateScene(const path, name, filename: string);
+procedure TScene.GenerateScene(sceneTemplateManager: TSceneTemplateManager;
+  const name, filename: string);
 var
-  templateFilename: string;
+  data: TStringBuilder;
   sceneTemplate: TSceneTemplate;
 
 begin
-  sceneTemplate := TSceneTemplate.Create;
-  templateFilename := TPath.Combine(path, 'templates\povray.export');
-  sceneTemplate.Load(templateFilename);
-  sceneTemplate.Free;
+  data := TStringBuilder.Create;
+  sceneTemplate := sceneTemplateManager.FindTemplate(name);
+  if assigned(sceneTemplate) then
+    data.AppendLine(GenerateShapes(sceneTemplate));
+  TFile.WriteAllText(filename, data.ToString);
+  data.Free;
+end;
+
+function TScene.GenerateShapes(template: TSceneTemplate): string;
+var
+  data: TStringBuilder;
+  format, text: string;
+  shape: TShape;
+  section, obj: TSceneTemplateSection;
+
+begin
+  data := TStringBuilder.Create;
+  obj := template.FindSection('object');
+  for shape in _shapes do
+  begin
+    section := template.FindSection(shape.GetType);
+    if assigned(section) then
+    begin
+      format := section.Data;
+      text := ProcessFormat(format, shape);
+      data.AppendLine(text);
+    end;
+  end;
+  result := data.ToString;
+  data.Free;
 end;
 
 function TScene.GetShape(index: integer): TShape;
@@ -170,6 +200,56 @@ begin
     shape := CreateShape(t);
     shape.Load(obj);
   end;
+end;
+
+function TScene.ProcessFormat(format: string; shape: TShape): string;
+var
+  escape: boolean;
+  i: integer;
+  ch, chNext: char;
+  data, token: TStringBuilder;
+
+begin
+  escape := false;
+
+  data := TStringBuilder.Create;
+  token := TStringBuilder.Create;
+
+  for i := 1 to Length(format) do
+  begin
+    ch := format[i];
+    if i < Length(format) then
+      chNext := format[i + 1]
+    else
+      chNext := chr(0);
+
+    if escape then
+    begin
+      if (ch <> '{') and (ch <> '}') then
+        token.Append(ch);
+
+      if ch = '}' then
+      begin
+        data.Append(shape.FindParameter(token.ToString));
+        escape := false;
+      end;
+    end
+    else
+    begin
+      if (ch = '$') and (chNext = '{') then
+      begin
+        token.Clear;
+        escape := true;
+      end
+      else
+        data.Append(ch);
+    end;
+  end;
+
+  result := data.ToString;
+
+  token.Free;
+  data.Free;
 end;
 
 procedure TScene.RegisterShape(const name: string; shapeType: TShapeType);

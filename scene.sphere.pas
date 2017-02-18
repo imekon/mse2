@@ -24,12 +24,13 @@ uses
   System.JSON,
   GLScene, GLObjects,
   helper.JSON,
-  scene.vector, scene.shape;
+  scene.vector, scene.parameter, scene.shape;
 
 type
   TSceneSphere = class(TShape)
   public
     constructor Create; override;
+    function GetType: string; override;
     procedure Load(obj: TJSONObject); override;
     procedure Save(obj: TJSONObject); override;
     function BuildGLSceneObject(owner: TGLBaseSceneObject): TGLBaseSceneObject; override;
@@ -54,6 +55,13 @@ constructor TSceneSphere.Create;
 begin
   inherited;
   AddStandardParameters;
+  _parameterManager.AddParameter<TSingleValue>('size',
+    TSingleValue.Create(1.0), TSceneParameterGroup.Details, false);
+end;
+
+function TSceneSphere.GetType: string;
+begin
+  result := 'sphere';
 end;
 
 procedure TSceneSphere.Load(obj: TJSONObject);

@@ -30,6 +30,7 @@ type
   TSceneCamera = class(TShape)
   public
     constructor Create; override;
+    function GetType: string; override;
     procedure Load(obj: TJSONObject); override;
     procedure Save(obj: TJSONObject); override;
     function BuildGLSceneObject(owner: TGLBaseSceneObject): TGLBaseSceneObject; override;
@@ -50,6 +51,11 @@ begin
   inherited;
   _parameterManager.AddParameter<TVectorValue>('position', TVectorValue.Create(0.0, 0.0, 5.0), TSceneParameterGroup.Camera, false);
   _parameterManager.AddParameter<TVectorValue>('lookat', TVectorValue.Create(0.0, 0.0, 0.0), TSceneParameterGroup.Camera, false);
+end;
+
+function TSceneCamera.GetType: string;
+begin
+  result := 'camera';
 end;
 
 procedure TSceneCamera.Load(obj: TJSONObject);

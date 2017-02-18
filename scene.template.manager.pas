@@ -13,6 +13,7 @@ type
   public
     constructor Create(const path: string);
     destructor Destroy; override;
+    function FindTemplate(const name: string): TSceneTemplate;
   end;
 
 implementation
@@ -41,6 +42,22 @@ destructor TSceneTemplateManager.Destroy;
 begin
   _templates.Free;
   inherited;
+end;
+
+function TSceneTemplateManager.FindTemplate(const name: string): TSceneTemplate;
+var
+  template: TSceneTemplate;
+
+begin
+  result := nil;
+  for template in _templates do
+  begin
+    if template.Name = name then
+    begin
+      result := template;
+      break;
+    end;
+  end;
 end;
 
 end.

@@ -327,7 +327,7 @@ end;
 procedure TMainForm.OnFileExport(Sender: TObject);
 begin
   if ExportDialog.Execute then
-    _scene.GenerateScene(_configuration.Path, 'povray', ExportDialog.FileName);
+    _scene.GenerateScene(_sceneTemplateManager, 'POVray', ExportDialog.FileName);
 end;
 
 procedure TMainForm.OnFileImportColours(Sender: TObject);

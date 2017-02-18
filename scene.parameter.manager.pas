@@ -28,7 +28,6 @@ type
   TSceneParameterManager = class
   private
     _parameters: TList<TSceneParameter>;
-    function FindParameter(const name: string): TSceneParameter;
     function GetParameterByIndex(index: integer): TSceneParameter;
     function GetParameterCount: integer;
   public
@@ -36,6 +35,7 @@ type
     destructor Destroy; override;
     procedure AddParameter<TType: TSceneValue>(const name: string; value: TType;
       group: TSceneParameterGroup; hide: boolean);
+    function FindParameter(const name: string): TSceneParameter;
     function GetParameter<TType: TSceneValue>(const name: string): TType;
     procedure SetParameter<TType: TSceneValue>(const name: string; const value: TType);
     procedure Save(obj: TJSONObject);

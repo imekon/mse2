@@ -30,6 +30,7 @@ type
   TSceneSpotLight = class(TShape)
   public
     constructor Create; override;
+    function GetType: string; override;
     procedure Load(obj: TJSONObject); override;
     procedure Save(obj: TJSONObject); override;
     function BuildGLSceneObject(owner: TGLBaseSceneObject): TGLBaseSceneObject; override;
@@ -54,6 +55,11 @@ begin
   inherited;
   _parameterManager.AddParameter<TVectorValue>('position', TVectorValue.Create(2.0, 2.0, 2.0), TSceneParameterGroup.Transform, false);
   _parameterManager.AddParameter<TSceneColour>('colour', TSceneColour.Create(1.0, 1.0, 1.0), TSceneParameterGroup.Colour, false);
+end;
+
+function TSceneSpotLight.GetType: string;
+begin
+  result := 'spotlight';
 end;
 
 procedure TSceneSpotLight.Load(obj: TJSONObject);

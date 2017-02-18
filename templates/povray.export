@@ -5,8 +5,8 @@ POVray export
 $[camera]
 camera
 {
-    location <${location}>
-    look_at <$(lookat)>
+    location <${position}>
+    look_at <${lookat}>
 }
 $[spotlight]
 spotlight
@@ -26,7 +26,7 @@ $[object]
 $[sphere]
 sphere
 {
-    <0, 0, 0>, ${radius}
+    <0, 0, 0>, ${size}
     ${object}
 }
 $[cube]

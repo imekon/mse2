@@ -30,6 +30,7 @@ type
   TSceneCone = class(TShape)
   public
     constructor Create; override;
+    function GetType: string; override;
     procedure Load(obj: TJSONObject); override;
     procedure Save(obj: TJSONObject); override;
     function BuildGLSceneObject(owner: TGLBaseSceneObject): TGLBaseSceneObject; override;
@@ -61,6 +62,11 @@ begin
   _parameterManager.AddParameter<TSingleValue>('bottom',
     TSingleValue.Create(0.5),
     TSceneParameterGroup.Details, false);
+end;
+
+function TSceneCone.GetType: string;
+begin
+  result := 'cone';
 end;
 
 procedure TSceneCone.Load(obj: TJSONObject);

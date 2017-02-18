@@ -9,7 +9,7 @@ uses
 type
   TSceneTemplateSection = class
   private
-    _section: string;
+    _name: string;
     _start: integer;
     _finish: integer;
     _data: TStringBuilder;
@@ -19,7 +19,7 @@ type
     destructor Destroy; override;
     procedure AddLine(line: string);
 
-    property Section: string read _section;
+    property Name: string read _name;
     property Data: string read GetData;
     property Start: integer read _start write _start;
     property Finish: integer read _finish write _finish;
@@ -34,6 +34,8 @@ type
     constructor Create;
     destructor Destroy; override;
     procedure Load(const filename: string);
+    function FindSection(const name: string): TSceneTemplateSection;
+    property Name: string read _name;
   end;
 
 implementation
@@ -48,7 +50,7 @@ end;
 constructor TSceneTemplateSection.Create(const section: string);
 begin
   _data := TStringBuilder.Create;
-  _section := MidStr(section, 3, Length(section) - 3);
+  _name := MidStr(section, 3, Length(section) - 3);
 end;
 
 destructor TSceneTemplateSection.Destroy;
@@ -73,6 +75,22 @@ destructor TSceneTemplate.Destroy;
 begin
   _sections.Free;
   inherited;
+end;
+
+function TSceneTemplate.FindSection(const name: string): TSceneTemplateSection;
+var
+  section: TSceneTemplateSection;
+
+begin
+  result := nil;
+  for section in _sections do
+  begin
+    if section.Name = name then
+    begin
+      result := section;
+      break;
+    end;
+  end;
 end;
 
 procedure TSceneTemplate.Load(const filename: string);
@@ -109,9 +127,9 @@ begin
       section.AddLine(lines[i]);
 
   for section in _sections do
-    if section.Section = 'name' then
+    if section.Name = 'name' then
       _name := Trim(section.Data)
-    else if section.Section = 'description' then
+    else if section.Name = 'description' then
       _description := Trim(section.Data);
 end;
 

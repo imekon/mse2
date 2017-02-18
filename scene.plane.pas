@@ -30,6 +30,7 @@ type
   TScenePlane = class(TShape)
   public
     constructor Create; override;
+    function GetType: string; override;
     procedure Load(obj: TJSONObject); override;
     procedure Save(obj: TJSONObject); override;
     function BuildGLSceneObject(owner: TGLBaseSceneObject): TGLBaseSceneObject; override;
@@ -54,6 +55,11 @@ constructor TScenePlane.Create;
 begin
   inherited;
   AddStandardParameters;
+end;
+
+function TScenePlane.GetType: string;
+begin
+  result := 'plane';
 end;
 
 procedure TScenePlane.Load(obj: TJSONObject);

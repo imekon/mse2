@@ -48,9 +48,11 @@ type
   public
     constructor Create; virtual;
     destructor Destroy; override;
+    function GetType: string; virtual; abstract;
     procedure ResetStatus;
     procedure Load(obj: TJSONObject); virtual;
     procedure Save(obj: TJSONObject); virtual;
+    function FindParameter(const name: string): string;
     function GetParameter<TType: TSceneValue>(const name: string): TType;
     procedure SetParameter<TType: TSceneValue>(const name: string; value: TType);
     function BuildGLSceneObject(owner: TGLBaseSceneObject): TGLBaseSceneObject; virtual; abstract;
@@ -100,6 +102,17 @@ destructor TShape.Destroy;
 begin
   _parameterManager.Free;
   inherited;
+end;
+
+function TShape.FindParameter(const name: string): string;
+var
+  parameter: TSceneParameter;
+
+begin
+  result := '';
+  parameter := _parameterManager.FindParameter(name);
+  if assigned(parameter) then
+    result := parameter.ToString;
 end;
 
 function TShape.GetIsAdded: boolean;
