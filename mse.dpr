@@ -29,7 +29,8 @@ uses
   scene.template in 'scene.template.pas',
   helper.configuration in 'helper.configuration.pas',
   scene.template.manager in 'scene.template.manager.pas',
-  helper.strings in 'helper.strings.pas';
+  helper.strings in 'helper.strings.pas',
+  helper.logger in 'helper.logger.pas';
 
 {$R *.res}
 

@@ -4,14 +4,16 @@ interface
 
 uses
   System.Types, System.Generics.Collections, System.IOUtils,
+  helper.logger,
   scene.template;
 
 type
   TSceneTemplateManager = class
   private
+    _logger: TLogger;
     _templates: TObjectList<TSceneTemplate>;
   public
-    constructor Create(const path: string);
+    constructor Create(logger: TLogger; const path: string);
     destructor Destroy; override;
     function FindTemplate(const name: string): TSceneTemplate;
   end;
@@ -20,21 +22,30 @@ implementation
 
 { TSceneTemplateManager }
 
-constructor TSceneTemplateManager.Create(const path: string);
+constructor TSceneTemplateManager.Create(logger: TLogger; const path: string);
 var
   files: TStringDynArray;
   templatePath, filename: string;
   template: TSceneTemplate;
 
 begin
+  _logger := logger;
   _templates := TObjectList<TSceneTemplate>.Create;
-  templatePath := TPath.Combine(path, 'templates');
-  files := TDirectory.GetFiles(templatePath, '*.export');
-  for filename in files do
-  begin
-    template := TSceneTemplate.Create;
-    template.Load(filename);
-    _templates.Add(template);
+  try
+    templatePath := TPath.Combine(path, 'templates');
+    try
+      files := TDirectory.GetFiles(templatePath, '*.export');
+    except
+      logger.Log(TLoggerSeverity.Error, 'Failed to load templates from: %s', [path]);
+    end;
+    for filename in files do
+    begin
+      template := TSceneTemplate.Create;
+      template.Load(filename);
+      _templates.Add(template);
+    end;
+  finally
+    logger.Log(TLoggerSeverity.Information, 'Loaded templates from: %s', [path]);
   end;
 end;
 

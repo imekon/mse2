@@ -29,7 +29,7 @@ uses
   Vcl.ValEdit, Vcl.ExtCtrls,
   GLCrossPlatform, GLBaseClasses, GLScene, GLWin32Viewer, GLCoordinates,
   helper.build.project.tree, helper.build.cleanup.project, helper.configuration,
-  helper.build.value.editor, helper.build.scene, helper.build.textures,
+  helper.build.value.editor, helper.build.scene, helper.build.textures, helper.logger,
   scene, scene.texture.manager, scene.template.manager;
 
 type
@@ -173,6 +173,7 @@ type
     procedure OnFileExport(Sender: TObject);
   private
     { Private declarations }
+    _logger: TFileLogger;
     _configuration: THelperConfiguration;
     _sceneTemplateManager: TSceneTemplateManager;
     _textureManager: TSceneTextureManager;
@@ -232,9 +233,10 @@ var
   textureFilename: string;
 
 begin
-  _configuration := THelperConfiguration.Create;
-  _sceneTemplateManager := TSceneTemplateManager.Create(_configuration.Path);
-  _textureManager := TSceneTextureManager.Create;
+  _logger := TFileLogger.Create('mse2.log');
+  _configuration := THelperConfiguration.Create(_logger);
+  _sceneTemplateManager := TSceneTemplateManager.Create(_logger, _configuration.Path);
+  _textureManager := TSceneTextureManager.Create(_logger);
   textureFilename := TPath.Combine(_configuration.Path, 'textures\textures.mst');
   _textureManager.Load(textureFilename);
   _scene := TScene.Create;
@@ -260,6 +262,7 @@ begin
   _projectTreeHelper.Free;
   _scene.Free;
   _textureManager.Free;
+  _logger.Free;
 end;
 
 procedure TMainForm.OnCreateCamera(Sender: TObject);

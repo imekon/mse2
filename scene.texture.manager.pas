@@ -22,18 +22,20 @@ interface
 
 uses
   System.Generics.Collections, System.IOUtils, System.SysUtils, System.JSON,
+  helper.logger,
   scene.texture;
 
 type
   TSceneTextureManager = class
   private
+    _logger: TLogger;
     _textures: TObjectList<TSceneTexture>;
     _registration: TDictionary<string, TSceneTextureType>;
     function GetTexture(index: integer): TSceneTexture;
     function GetTextureCount: integer;
     procedure RegisterTexture(const name: string; textureType: TSceneTextureType);
   public
-    constructor Create;
+    constructor Create(logger: TLogger);
     destructor Destroy; override;
     procedure ImportColours(const filename: string);
     procedure Load(const filename: string);
@@ -51,8 +53,9 @@ uses
 
 { TSceneTextureManager }
 
-constructor TSceneTextureManager.Create;
+constructor TSceneTextureManager.Create(logger: TLogger);
 begin
+  _logger := logger;
   _textures := TObjectList<TSceneTexture>.Create;
   _registration := TDictionary<string, TSceneTextureType>.Create;
 
@@ -94,20 +97,26 @@ var
 
 begin
   tokens := TStringList.Create;
-  AssignFile(input, filename);
-  Reset(input);
-  while not eof(input) do
-  begin
-    ReadLn(input, line);
-    Split(line, ' ', tokens);
-    texture := CreateTexture('colour');
-    texture.Name := tokens[0];
-    texture.Colour := tokens[1] + ', ' + tokens[2] + ', ' + tokens[3];
-    _textures.Add(texture);
+  try
+    AssignFile(input, filename);
+    try
+      Reset(input);
+      while not eof(input) do
+      begin
+        ReadLn(input, line);
+        Split(line, ' ', tokens);
+        texture := CreateTexture('colour');
+        texture.Name := tokens[0];
+        texture.Colour := tokens[1] + ', ' + tokens[2] + ', ' + tokens[3];
+        _textures.Add(texture);
+      end;
+    except
+      _logger.Log(TLoggerSeverity.Error, 'Failed to import colours from %s', [filename]);
+    end;
+  finally
+    CloseFile(input);
+    tokens.Free;
   end;
-
-  CloseFile(input);
-  tokens.Free;
 end;
 
 procedure TSceneTextureManager.Load(const filename: string);
@@ -119,19 +128,23 @@ var
   texture: TSceneTexture;
 
 begin
-  data := TFile.ReadAllText(filename);
-  root := TJSONObject.ParseJSONValue(data, true) as TJSONObject;
-  texturesArray := root.Get('textures').JsonValue as TJSONArray;
-  n := texturesArray.Count;
-  for i := 0 to n - 1 do
-  begin
-    obj := texturesArray.Items[i] as TJSONObject;
-    t := obj.GetValue('texture').Value;
-    texture := CreateTexture(t);
-    texture.Load(obj);
-    _textures.Add(texture);
+  try
+    data := TFile.ReadAllText(filename);
+    root := TJSONObject.ParseJSONValue(data, true) as TJSONObject;
+    texturesArray := root.Get('textures').JsonValue as TJSONArray;
+    n := texturesArray.Count;
+    for i := 0 to n - 1 do
+    begin
+      obj := texturesArray.Items[i] as TJSONObject;
+      t := obj.GetValue('texture').Value;
+      texture := CreateTexture(t);
+      texture.Load(obj);
+      _textures.Add(texture);
+    end;
+    root.Free;
+  except
+    _logger.Log(TLoggerSeverity.Error, 'Failed to load textures from %s', [filename]);
   end;
-  root.Free;
 end;
 
 procedure TSceneTextureManager.RegisterTexture(const name: string;
