@@ -53,6 +53,7 @@ type
     procedure Load(obj: TJSONObject); virtual;
     procedure Save(obj: TJSONObject); virtual;
     function FindParameter(const name: string): string;
+    function FindParameterObject(const name: string): TSceneParameter;
     function GetParameter<TType: TSceneValue>(const name: string): TType;
     procedure SetParameter<TType: TSceneValue>(const name: string; value: TType);
     function BuildGLSceneObject(owner: TGLBaseSceneObject): TGLBaseSceneObject; virtual; abstract;
@@ -110,9 +111,14 @@ var
 
 begin
   result := '';
-  parameter := _parameterManager.FindParameter(name);
+  parameter := FindParameterObject(name);
   if assigned(parameter) then
     result := parameter.ToString;
+end;
+
+function TShape.FindParameterObject(const name: string): TSceneParameter;
+begin
+  result := _parameterManager.FindParameter(name);
 end;
 
 function TShape.GetIsAdded: boolean;

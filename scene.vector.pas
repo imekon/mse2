@@ -37,7 +37,7 @@ type
     procedure Save(const name: string; obj: TJSONObject); override;
     procedure Load(const name: string; obj: TJSONObject); override;
     procedure Parse(const text: string); override;
-    function GetSubParameter(const name: string): string; override;
+    function GetField(const field: string; negate: boolean): string; override;
 
     property X: single read _x write _x;
     property Y: single read _y write _y;
@@ -63,22 +63,24 @@ begin
   result := true;
 end;
 
-function TVectorValue.GetSubParameter(const name: string): string;
+function TVectorValue.GetField(const field: string; negate: boolean): string;
 var
-  subName, field: string;
+  value: single;
 
 begin
-  result := '';
+  value := 0.0;
 
-  THelperStrings.SplitSubParameter(name, subName, field);
+  if field.ToUpper = 'X' then
+    value := _x
+  else if field.ToUpper = 'Y' then
+    value := _y
+  else if field.ToUpper = 'Z' then
+    value := _z;
 
-  field := field.ToUpper;
-  if field = 'X' then
-    result := FloatToStr(_x)
-  else if field = 'Y' then
-    result := FloatToStr(_y)
-  else if field = 'Z' then
-    result := FloatToStr(_z);
+  if negate then
+    value := -value;
+
+  result := FloatToStr(value);
 end;
 
 procedure TVectorValue.Load(const name: string; obj: TJSONObject);

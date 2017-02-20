@@ -36,7 +36,7 @@ type
     procedure Parse(const text: string); override;
     procedure Load(const name: string; obj: TJSONObject); override;
     procedure Save(const name: string; obj: TJSONObject); override;
-    function GetSubParameter(const name: string): string; override;
+    function GetField(const field: string; negate: boolean): string; override;
     property Red: single read _red write _red;
     property Green: single read _green write _green;
     property Blue: single read _blue write _blue;
@@ -51,7 +51,7 @@ type
     procedure Parse(const text: string); override;
     procedure Load(const name: string; obj: TJSONObject); override;
     procedure Save(const name: string; obj: TJSONObject); override;
-    function GetSubParameter(const name: string): string; override;
+    function GetField(const field: string; negate: boolean): string; override;
     property Red;
     property Green;
     property Blue;
@@ -71,24 +71,26 @@ begin
   _alpha := a;
 end;
 
-function TSceneColourAlpha.GetSubParameter(const name: string): string;
+function TSceneColourAlpha.GetField(const field: string; negate: boolean): string;
 var
-  subName, field: string;
+  value: single;
 
 begin
-  result := '';
+  value := 0.0;
 
-  THelperStrings.SplitSubParameter(name, subName, field);
+  if field.ToUpper = 'RED' then
+    value := _red
+  else if field.ToUpper = 'GREEN' then
+    value := _green
+  else if field.ToUpper = 'BLUE' then
+    value := _blue
+  else if field.ToUpper = 'ALPHA' then
+    value := _alpha;
 
-  field := field.ToUpper;
-  if field = 'RED' then
-    result := FloatToStr(_red)
-  else if field = 'GREEN' then
-    result := FloatToStr(_green)
-  else if field = 'BLUE' then
-    result := FloatToStr(_blue)
-  else if field = 'ALPHA' then
-    result := FloatToStr(_alpha);
+  if negate then
+    value := -value;
+
+  result := FloatToStr(value);
 end;
 
 procedure TSceneColourAlpha.Load(const name: string; obj: TJSONObject);
@@ -144,22 +146,24 @@ begin
   result := true;
 end;
 
-function TSceneColour.GetSubParameter(const name: string): string;
+function TSceneColour.GetField(const field: string; negate: boolean): string;
 var
-  subName, field: string;
+  value: single;
 
 begin
-  result := '';
+  value := 0.0;
 
-  THelperStrings.SplitSubParameter(name, subName, field);
+  if field.ToUpper = 'RED' then
+    value := _red
+  else if field.ToUpper = 'GREEN' then
+    value := _green
+  else if field.ToUpper = 'BLUE' then
+    value := _blue;
 
-  field := field.ToUpper;
-  if field = 'RED' then
-    result := FloatToStr(_red)
-  else if field = 'GREEN' then
-    result := FloatToStr(_green)
-  else if field = 'BLUE' then
-    result := FloatToStr(_blue);
+  if negate then
+    value := -value;
+
+  result := FloatToStr(value);
 end;
 
 procedure TSceneColour.Load(const name: string; obj: TJSONObject);

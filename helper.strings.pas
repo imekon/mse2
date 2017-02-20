@@ -10,7 +10,7 @@ type
   public
     class function IsSubParameter(name: string): boolean;
     class procedure SplitSubParameter(expression: string;
-      out name, field: string);
+      out negate: boolean; out name, field: string);
   end;
 
 implementation
@@ -23,11 +23,18 @@ begin
 end;
 
 class procedure THelperStrings.SplitSubParameter(expression: string;
-  out name, field: string);
+  out negate: boolean; out name, field: string);
 var
   tokens: TArray<string>;
 
 begin
+  negate := false;
+  if expression.StartsWith('-') then
+  begin
+    expression := expression.Substring(1);
+    negate := true;
+  end;
+
   tokens := expression.Split(['.']);
   if Length(tokens) <> 0 then
   begin

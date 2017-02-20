@@ -35,7 +35,7 @@ type
     procedure Parse(const text: string); virtual; abstract;
     procedure Save(const name: string; obj: TJSONObject); virtual; abstract;
     procedure Load(const name: string; obj: TJSONObject); virtual; abstract;
-    function GetSubParameter(const name: string): string; virtual;
+    function GetField(const field: string; negate: boolean): string; virtual;
     property HasSubParameter: boolean read GetHasSubParameter;
   end;
 
@@ -84,6 +84,7 @@ type
     constructor Create(const name: string; group: TSceneParameterGroup; hide: boolean); virtual;
     procedure Save(obj: TJSONObject); virtual; abstract;
     procedure Load(obj: TJSONObject); virtual; abstract;
+    function GetField(const field: string; negate: boolean): string; virtual; abstract;
     property Name: string read _name;
     property HideInEditor: boolean read _hide;
   end;
@@ -97,6 +98,7 @@ type
     function ToString: string; override;
     procedure Save(obj: TJSONObject); override;
     procedure Load(obj: TJSONObject); override;
+    function GetField(const field: string; negate: boolean): string; override;
     property Value: TType read _value write SetValue;
   end;
 
@@ -107,6 +109,11 @@ implementation
 constructor TSceneParameter<TType>.Create(const name: string; group: TSceneParameterGroup; hide: boolean);
 begin
   inherited Create(name, group, hide);
+end;
+
+function TSceneParameter<TType>.GetField(const field: string; negate: boolean): string;
+begin
+  result := _value.GetField(field, negate);
 end;
 
 procedure TSceneParameter<TType>.Load(obj: TJSONObject);
@@ -153,7 +160,7 @@ begin
   result := false;
 end;
 
-function TSceneValue.GetSubParameter(const name: string): string;
+function TSceneValue.GetField(const field: string; negate: boolean): string;
 begin
   result := '';
 end;
