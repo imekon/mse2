@@ -49,7 +49,7 @@ type
 implementation
 
 uses
-  System.Classes, helper.Utilities;
+  System.Classes;
 
 { TSceneTextureManager }
 
@@ -93,10 +93,9 @@ var
   input: TextFile;
   line: string;
   texture: TSceneTexture;
-  tokens: TStringList;
+  tokens: TArray<string>;
 
 begin
-  tokens := TStringList.Create;
   try
     AssignFile(input, filename);
     try
@@ -104,7 +103,7 @@ begin
       while not eof(input) do
       begin
         ReadLn(input, line);
-        Split(line, ' ', tokens);
+        tokens := line.Split([' ']);
         texture := CreateTexture('colour');
         texture.Name := tokens[0];
         texture.Colour := tokens[1] + ', ' + tokens[2] + ', ' + tokens[3];
@@ -115,7 +114,6 @@ begin
     end;
   finally
     CloseFile(input);
-    tokens.Free;
   end;
 end;
 

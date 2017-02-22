@@ -53,8 +53,16 @@ end;
 constructor TSceneSpotLight.Create;
 begin
   inherited;
-  _parameterManager.AddParameter<TVectorValue>('position', TVectorValue.Create(2.0, 2.0, 2.0), TSceneParameterGroup.Transform, false);
-  _parameterManager.AddParameter<TSceneColour>('colour', TSceneColour.Create(1.0, 1.0, 1.0), TSceneParameterGroup.Colour, false);
+  _parameterManager.AddParameter<TVectorValue>('position',
+    TVectorValue.Create(2.0, 2.0, 2.0), TSceneParameterGroup.Transform, false);
+  _parameterManager.AddParameter<TSceneColour>('colour',
+    TSceneColour.Create(1.0, 1.0, 1.0), TSceneParameterGroup.Colour, false);
+  _parameterManager.AddParameter<TSingleValue>('radius',
+    TSingleValue.Create(70.0), TSceneParameterGroup.Colour, false);
+  _parameterManager.AddParameter<TSingleValue>('falloff',
+    TSingleValue.Create(70.0), TSceneParameterGroup.Colour, false);
+  _parameterManager.AddParameter<TSingleValue>('tightness',
+    TSingleValue.Create(10.0), TSceneParameterGroup.Colour, false);
 end;
 
 function TSceneSpotLight.GetType: string;

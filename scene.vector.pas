@@ -47,7 +47,7 @@ type
 implementation
 
 uses
-  System.Classes, helper.utilities;
+  System.Classes;
 
 { TSceneVector }
 
@@ -94,15 +94,13 @@ end;
 
 procedure TVectorValue.Parse(const text: string);
 var
-  tokens: TStringList;
+  tokens: TArray<string>;
 
 begin
-  tokens := TStringList.Create;
-  Split(text, ',', tokens);
+  tokens := text.Split([',']);
   _x := StrToFloat(tokens[0]);
   _y := StrToFloat(tokens[1]);
   _z := StrToFloat(tokens[2]);
-  tokens.Free;
 end;
 
 procedure TVectorValue.Save(const name: string; obj: TJSONObject);
@@ -116,7 +114,7 @@ end;
 
 function TVectorValue.ToString: string;
 begin
-  result := Format('%1.6f, %1.6f, %1.6f',
+  result := Format('%f, %f, %f',
     [_x, _y, _z]);
 end;
 

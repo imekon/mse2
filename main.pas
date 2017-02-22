@@ -183,6 +183,7 @@ type
     _valueEditor: TBuildValueEditorHelper;
     _sceneBuilder: THelperBuildScene;
     _textureBuilder: THelperBuildTextures;
+    _filename: string;
     procedure Build3DScene;
     procedure BuildProjectTree;
     procedure BuildCleanup;
@@ -344,7 +345,8 @@ end;
 
 procedure TMainForm.OnFileNew(Sender: TObject);
 begin
-  //
+  _scene.Clear;
+  Build;
 end;
 
 procedure TMainForm.OnFileOpen(Sender: TObject);
@@ -352,13 +354,17 @@ begin
   if OpenDialog.Execute then
   begin
     _scene.Load(OpenDialog.FileName);
+    _filename := OpenDialog.FileName;
     Build;
   end;
 end;
 
 procedure TMainForm.OnFileSave(Sender: TObject);
 begin
-  //
+  if Length(_filename) > 0 then
+    _scene.Save(_filename)
+  else
+    OnFileSaveAs(sender);
 end;
 
 procedure TMainForm.OnFileSaveAs(Sender: TObject);
@@ -366,6 +372,7 @@ begin
   if SaveDialog.Execute then
   begin
     _scene.Save(SaveDialog.FileName);
+    _filename := SaveDialog.FileName;
   end;
 end;
 

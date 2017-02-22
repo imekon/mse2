@@ -22,7 +22,7 @@ interface
 
 uses
   System.SysUtils, System.JSON,
-  helper.utilities, helper.JSON,
+  helper.JSON,
   scene.parameter, helper.strings;
 
 type
@@ -104,21 +104,18 @@ end;
 
 procedure TSceneColourAlpha.Parse(const text: string);
 var
-  tokens: TStringList;
+  tokens: TArray<string>;
 
 begin
-  tokens := TStringList.Create;
-  Split(text, ',', tokens);
+  tokens := text.Split(['.']);
   _red := StrToFloat(tokens[0]);
   _green := StrToFloat(tokens[1]);
   _blue := StrToFloat(tokens[2]);
 
-  if tokens.Count = 4 then
+  if Length(tokens) = 4 then
     _alpha := StrToFloat(tokens[3])
   else
     _alpha := 1.0;
-
-  tokens.Free;
 end;
 
 procedure TSceneColourAlpha.Save(const name: string; obj: TJSONObject);
@@ -177,15 +174,13 @@ end;
 
 procedure TSceneColour.Parse(const text: string);
 var
-  tokens: TStringList;
+  tokens: TArray<string>;
 
 begin
-  tokens := TStringList.Create;
-  Split(text, ',', tokens);
+  tokens := text.Split([',']);
   _red := StrToFloat(tokens[0]);
   _green := StrToFloat(tokens[1]);
   _blue := StrToFloat(tokens[2]);
-  tokens.Free;
 end;
 
 procedure TSceneColour.Save(const name: string; obj: TJSONObject);

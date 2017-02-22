@@ -5,7 +5,7 @@
         <FrameworkType>VCL</FrameworkType>
         <MainSource>mse.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -125,6 +125,7 @@
         <DCC_DebugInformation>0</DCC_DebugInformation>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <AppEnableHighDPI>true</AppEnableHighDPI>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -132,9 +133,10 @@
         <Icon_MainIcon>Model256.ico</Icon_MainIcon>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-        <VerInfo_Build>9</VerInfo_Build>
+        <BT_BuildType>Debug</BT_BuildType>
+        <VerInfo_Build>10</VerInfo_Build>
         <VerInfo_MajorVer>2</VerInfo_MajorVer>
-        <VerInfo_Keys>CompanyName=Pete Goodwin;FileVersion=2.0.0.9;InternalName=;LegalCopyright=Copyright © 2017 Pete Goodwin;LegalTrademarks=;OriginalFilename=;ProductVersion=2.0.0.0;Comments=;ProgramID=com.embarcadero.$(ModuleName);FileDescription=$(ModuleName);ProductName=$(ModuleName)</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Pete Goodwin;FileVersion=2.0.0.10;InternalName=;LegalCopyright=Copyright © 2017 Pete Goodwin;LegalTrademarks=;OriginalFilename=;ProductVersion=2.0.0.0;Comments=;ProgramID=com.embarcadero.$(ModuleName);FileDescription=$(ModuleName);ProductName=$(ModuleName)</VerInfo_Keys>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <AppEnableHighDPI>true</AppEnableHighDPI>
@@ -169,7 +171,6 @@
         <DCCReference Include="scene.cylinder.pas"/>
         <DCCReference Include="scene.cone.pas"/>
         <DCCReference Include="helper.json.pas"/>
-        <DCCReference Include="helper.utilities.pas"/>
         <DCCReference Include="form.about.pas">
             <Form>AboutBox</Form>
             <FormType>dfm</FormType>
@@ -222,12 +223,6 @@
                 <DeployFile LocalName="Win64\Release\mse.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win64">
                         <RemoteName>mse.exe</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="Win64\Debug\mse.rsm" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win64">
-                        <RemoteName>mse.rsm</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
