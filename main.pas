@@ -171,6 +171,8 @@ type
     procedure OnLoadTextures(Sender: TObject);
     procedure OnSaveTextures(Sender: TObject);
     procedure OnFileExport(Sender: TObject);
+    procedure OnTextureSelect(Sender: TObject; Item: TListItem;
+      Change: TItemChange);
   private
     { Private declarations }
     _logger: TFileLogger;
@@ -200,7 +202,7 @@ implementation
 
 {$R *.dfm}
 
-uses scene.shape, form.about;
+uses scene.shape, form.about, scene.texture;
 
 procedure TMainForm.Build;
 begin
@@ -411,6 +413,17 @@ procedure TMainForm.OnSaveTextures(Sender: TObject);
 begin
   if SaveTexturesDialog.Execute then
     _textureManager.Save(SaveTexturesDialog.FileName);
+end;
+
+procedure TMainForm.OnTextureSelect(Sender: TObject; Item: TListItem;
+  Change: TItemChange);
+var
+  texture: TSceneTexture;
+
+begin
+  texture := TSceneTexture(Item.Data);
+  if assigned(texture) then
+    _valueEditor.Build(texture.ParameterManager);
 end;
 
 procedure TMainForm.OnUpdateViewCamera(Sender: TObject);

@@ -41,6 +41,7 @@ type
     procedure Save(obj: TJSONObject); virtual;
     property Name: string read GetName write SetName;
     property Colour: string read GetColour write SetColour;
+    property ParameterManager: TSceneParameterManager read _parameters;
   end;
 
   TSceneTextureType = class of TSceneTexture;

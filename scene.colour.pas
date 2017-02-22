@@ -190,7 +190,7 @@ end;
 
 function TSceneColour.ToString: string;
 begin
-  result := Format('%1.2f, %1.2f, %1.2f',
+  result := Format('%f, %f, %f',
     [_red, _green, _blue]);
 end;
 

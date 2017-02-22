@@ -193,6 +193,9 @@ object MainForm: TMainForm
       RowSelect = True
       TabOrder = 2
       ViewStyle = vsReport
+      OnChange = OnTextureSelect
+      ExplicitLeft = -3
+      ExplicitTop = 177
     end
   end
   object StatusBar1: TStatusBar
