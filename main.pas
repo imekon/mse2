@@ -345,7 +345,6 @@ end;
 
 procedure TMainForm.OnFileNew(Sender: TObject);
 begin
-  _scene.Clear;
   Build;
 end;
 

@@ -107,7 +107,7 @@ var
   tokens: TArray<string>;
 
 begin
-  tokens := text.Split(['.']);
+  tokens := text.Split([',']);
   _red := StrToFloat(tokens[0]);
   _green := StrToFloat(tokens[1]);
   _blue := StrToFloat(tokens[2]);
